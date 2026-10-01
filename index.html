@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador de Personas</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-image: url('imagen.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.header {
+    background-color: #d100c5;
+    color: white;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.hero {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: #333;
+}
+
+.number {
+    font-size: 100px;
+    margin: 0;
+}
+
+.text {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px 20px;
+}
+
+.counter-box {
+    /* Las cajas de hombres y mujeres. Le ponemos un blanco semitransparente para que se vea el fondo a través */
+    background: rgba(255, 255, 255, 0.85); 
+    padding: 30px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.counter-box h3 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.counter-box .number {
+    font-size: 60px;
+}
+
+.btn {
+    border: none;
+    padding: 10px 20px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin: 10px 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-main {
+    background-color: #d100c5;
+    padding: 15px 40px;
+    font-size: 30px;
+    border-radius: 50px;
+}
+
+.btn-minus { background-color: #666; }
+.btn-man { background-color: #007bff; }
+.btn-woman { background-color: #e83e8c; }
+</style>
+
+<script>
+var total = 0;
+var men = 0;
+var women = 0;
+</script>
+
+</head>
+<body>
+
+<div class="header">Contador de Clicks</div>
+
+<div class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="number" id="totalNumber">0</p>
+        <p class="text" id="totalText">Personas</p>
+        
+        <button class="btn btn-minus" onclick="if(total > 0) { total--; document.getElementById('totalNumber').innerText = total; document.getElementById('totalText').innerText = (total == 1) ? 'Persona' : 'Personas'; }">-1</button>
+        <button class="btn btn-main" onclick="total++; document.getElementById('totalNumber').innerText = total; document.getElementById('totalText').innerText = (total == 1) ? 'Persona' : 'Personas';">+1</button>
+    </div>
+</div>
+
+<div class="controls">
+    <div class="counter-box">
+        <h3><i class="fas fa-male"></i> Hombres</h3>
+        <p class="number" id="menNumber">0</p>
+        
+        <button class="btn btn-minus" onclick="if(men > 0) { men--; total--; document.getElementById('menNumber').innerText = men; document.getElementById('totalNumber').innerText = total; document.getElementById('totalText').innerText = (total == 1) ? 'Persona' : 'Personas'; }">-1</button>
+        <button class="btn btn-man" onclick="men++; total++; document.getElementById('menNumber').innerText = men; document.getElementById('totalNumber').innerText = total; document.getElementById('totalText').innerText = (total == 1) ? 'Persona' : 'Personas';">+1</button>
+    </div>
+
+    <div class="counter-box">
+        <h3><i class="fas fa-female"></i> Mujeres</h3>
+        <p class="number" id="womenNumber">0</p>
+        
+        <button class="btn btn-minus" onclick="if(women > 0) { women--; total--; document.getElementById('womenNumber').innerText = women; document.getElementById('totalNumber').innerText = total; document.getElementById('totalText').innerText = (total == 1) ? 'Persona' : 'Personas'; }">-1</button>
+        <button class="btn btn-woman" onclick="women++; total++; document.getElementById('womenNumber').innerText = women; document.getElementById('totalNumber').innerText = total; document.getElementById('totalText').innerText = (total == 1) ? 'Persona' : 'Personas';">+1</button>
+    </div>
+</div>
+
+</body>
+</html>
