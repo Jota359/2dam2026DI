@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompts e IAs Usadas para este trabajo</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            paper: '#FAF8F5',
+            ink: '#18181B',
+            pomodoro: '#D94E4E',
+            gemini: '#4F46E5',
+            deepseek: '#0EA5E9',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #FAF8F5;
+      color: #18181B;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1EFEA;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D6D3CD;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #A8A29E;
+    }
+    .drop-active {
+      outline: 3px dashed #4F46E5;
+      outline-offset: -6px;
+      background-color: rgba(79, 70, 229, 0.05);
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-pomodoro selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-zinc-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-medium border border-zinc-700/60">
+      <span id="toast-icon" class="text-emerald-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </span>
+      <span id="toast-message">Acción completada</span>
+    </div>
+  </div>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="sticky top-0 z-30 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-stone-200/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <span class="w-3 h-3 rounded-full bg-pomodoro inline-block shadow-sm"></span>
+        <span class="font-semibold text-sm sm:text-base tracking-tight text-zinc-800">Bitácora de Ingeniería de Prompts</span>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Quick Filter Pills (Desktop) -->
+        <nav class="hidden md:flex items-center bg-stone-200/70 p-1 rounded-xl text-xs font-medium">
+          <button onclick="filterSteps('all')" data-filter="all" class="filter-btn px-3 py-1.5 rounded-lg bg-white text-zinc-900 shadow-sm transition">Todos (6)</button>
+          <button onclick="filterSteps('Gemini')" data-filter="Gemini" class="filter-btn px-3 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-900 transition">Gemini</button>
+          <button onclick="filterSteps('DeepSeek')" data-filter="DeepSeek" class="filter-btn px-3 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-900 transition">DeepSeek</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-16 sm:pb-14">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200/80 text-pomodoro text-xs font-semibold tracking-wide uppercase mb-5">
+        <span>Desarrollo Asistido por IA</span>
+        <span class="text-red-300">•</span>
+        <span>6 Iteraciones</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-[1.12] mb-4">
+        Prompts e IAs Usadas para este trabajo
+      </h1>
+
+      <!-- Author Badge -->
+      <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-white border border-stone-200/90 shadow-2xs text-xs sm:text-sm text-zinc-700 mb-6">
+        <span class="w-6 h-6 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-[11px] font-bold tracking-tight">SJ</span>
+        <span>Autor: <strong class="font-semibold text-zinc-900">Sergio Jiménez Centellas</strong></span>
+      </div>
+
+      <p class="text-base sm:text-lg text-zinc-600 leading-relaxed mb-8">
+        Documentación cronológica del proceso creativo y técnico detrás de la aplicación de estudio <strong class="font-semibold text-zinc-800">Pomodoro</strong>. Explora cómo cada instrucción iterativa en <span class="text-gemini font-semibold">Gemini</span> y <span class="text-deepseek font-semibold">DeepSeek</span> transformó un temporizador básico en una herramienta completa, gamificada y editorial.
+      </p>
+
+      <!-- Legend & Quick Info Banner -->
+      <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-zinc-600 bg-white border border-stone-200/90 rounded-2xl p-4 shadow-sm">
+        <span class="font-semibold text-zinc-800 mr-1">Modelos utilizados:</span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-medium border border-indigo-100">
+          <span class="w-2 h-2 rounded-full bg-indigo-600"></span> Gemini (Pasos 1–3 y 6)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 font-medium border border-sky-100">
+          <span class="w-2 h-2 rounded-full bg-sky-500"></span> DeepSeek (Pasos 4–6)
+        </span>
+        <span class="ml-auto text-xs text-zinc-400 hidden sm:inline">
+          Haz clic en cualquier captura para ampliar
+        </span>
+      </div>
+    </div>
+
+    <!-- Step Quick Jump Pills -->
+    <div class="mt-8 flex items-center gap-2 overflow-x-auto pb-2">
+      <span class="text-xs font-medium text-zinc-400 uppercase tracking-wider mr-1 shrink-0">Ir a:</span>
+      <a href="#paso-1" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 1</a>
+      <a href="#paso-2" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 2</a>
+      <a href="#paso-3" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 3</a>
+      <a href="#paso-4" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 4</a>
+      <a href="#paso-5" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 5</a>
+      <a href="#paso-6" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-xs font-semibold text-emerald-800 transition">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+        Paso 6 · Versión Final
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Timeline Container -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    <div id="timeline-container" class="relative space-y-12 sm:space-y-16 before:content-[''] before:hidden sm:before:block before:absolute before:left-6 before:top-4 before:bottom-4 before:w-px before:bg-stone-300">
+      <!-- Cards will be rendered dynamically via JavaScript for clean state & file binding -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-stone-200 bg-white py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+      <p class="font-medium text-zinc-700">Prompts e IAs Usadas para este trabajo — Realizado por <strong class="font-semibold text-zinc-900">Sergio Jiménez Centellas</strong></p>
+      <p>Portafolio de Desarrollo Pomodoro · Capturas <code class="bg-stone-100 px-1.5 py-0.5 rounded text-zinc-700">pomodoro1.png</code> … <code class="bg-stone-100 px-1.5 py-0.5 rounded text-zinc-700">pomodoro7.png</code></p>
+    </div>
+  </footer>
+
+  <!-- Full-Screen Lightbox Modal -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8" onclick="closeLightbox(event)">
+    <div class="relative max-w-6xl w-full max-h-full flex flex-col items-center" onclick="event.stopPropagation()">
+      <!-- Top Bar -->
+      <div class="w-full flex items-center justify-between text-white mb-3 px-1">
+        <div class="flex items-center gap-3">
+          <span id="lightbox-badge" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-pomodoro text-white">Paso 1</span>
+          <span id="lightbox-title" class="text-sm sm:text-base font-medium text-zinc-200">pomodoro1.png</span>
+        </div>
+        <button onclick="closeLightbox()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition" aria-label="Cerrar vista ampliada">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Enlarged Image -->
+      <div class="relative bg-zinc-900 rounded-2xl overflow-hidden border border-white/15 shadow-2xl max-h-[82vh] flex items-center justify-center">
+        <img id="lightbox-img" src="" alt="Captura ampliada" class="max-h-[80vh] w-auto object-contain">
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="mt-4 flex items-center gap-3">
+        <button onclick="navigateLightbox(-1)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-medium transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Anterior
+        </button>
+        <span id="lightbox-counter" class="text-xs text-zinc-400 font-mono px-2">1 / 7</span>
+        <button onclick="navigateLightbox(1)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-medium transition flex items-center gap-1.5">
+          Siguiente
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Exact data for all 6 steps, prompts, AI tags, and screenshot filenames
+    const stepsData = [
+      {
+        step: 1,
+        ai: "Gemini",
+        aiFilter: ["Gemini"],
+        badgeText: "Gemini",
+        badgeStyle: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        dotColor: "bg-indigo-600",
+        roleDescription: "Versión inicial minimalista inspirada en PomodoroTimer",
+        imageFile: "pomodoro1.png",
+        prompt: `Necesito crear una pagina web que se base en el metodo de estudio "Pomodoro", de el estilo de esta pagina:https://pomodorotimer.online/es/;`
+      },
+      {
+        step: 2,
+        ai: "Gemini",
+        aiFilter: ["Gemini"],
+        badgeText: "Gemini",
+        badgeStyle: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        dotColor: "bg-indigo-600",
+        roleDescription: "Rediseño gamificado estilo RPG retro con sistema de misiones y combate",
+        imageFile: "pomodoro2.png",
+        prompt: `quiero que sea mas completa y compleja,con mas funcionalidades extra y mas llamativa`
+      },
+      {
+        step: 3,
+        ai: "Gemini",
+        aiFilter: ["Gemini"],
+        badgeText: "Gemini",
+        badgeStyle: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        dotColor: "bg-indigo-600",
+        roleDescription: "Depuración funcional, traducción completa al español y estados de tarea",
+        imageFile: "pomodoro3.png",
+        prompt: `la pagina no funciona bien,ajustala y arregla el codigo para que funcione todo lo que hay en la pagina web.A parte,ponla en español, y en la zona de tareas, que tenga la opcion el usuario de poder estar completa e incompleta`
+      },
+      {
+        step: 4,
+        ai: "DeepSeek",
+        aiFilter: ["DeepSeek"],
+        badgeText: "DeepSeek",
+        badgeStyle: "bg-sky-50 text-sky-700 border-sky-200",
+        dotColor: "bg-sky-500",
+        roleDescription: "Implementación con sonido ambiental, progreso diario y gestor de tareas",
+        imageFile: "pomodoro5.png",
+        prompt: `Actúa como un Desarrollador Web Full-Stack. Escribe el código completo (HTML, CSS y JS puro) para una aplicación web basada en la técnica Pomodoro.
+
+Requisitos principales:
+    Temporizador funcional con modos de Trabajo, Descanso Corto y Descanso Largo.
+    Diseño minimalista y responsive, donde el color de fondo cambie de forma fluida según el modo de tiempo activo.
+
+Innovación y extras:
+No te limites al reloj básico. Añade herramientas integradas que potencien la sesión de estudio. Debes incluir un gestor de tareas (To-Do list) para apuntar objetivos, y te doy libertad creativa para diseñar e implementar otras funciones innovadoras que ayuden a la concentración (por ejemplo: registro de estadísticas diarias, reproductor de sonido ambiental/ruido blanco, sistema de logros, etc.).
+
+Entrega el código estructurado y listo para probar, asegurándote de que sea funcional y visualmente atractivo.`
+      },
+      {
+        step: 5,
+        ai: "DeepSeek",
+        aiFilter: ["DeepSeek"],
+        badgeText: "DeepSeek",
+        badgeStyle: "bg-sky-50 text-sky-700 border-sky-200",
+        dotColor: "bg-sky-500",
+        roleDescription: "Sustitución de logros por módulo de respiración 4-7-8 y estética oscura",
+        imageFile: "pomodoro6.png",
+        prompt: `esta bien, pero hazla más innovadora,y en las tareas que no haya ninguna por defecto, y quita el apartado de "Primer pomodoro",y pon otra cosa donde estaba eso`
+      },
+      {
+        step: 6,
+        isFinal: true,
+        ai: "Gemini / DeepSeek",
+        aiFilter: ["Gemini", "DeepSeek"],
+        badgeText: "Gemini / DeepSeek",
+        badgeStyle: "bg-amber-50 text-amber-800 border-amber-200",
+        dotColor: "bg-pomodoro",
+        roleDescription: "Versión Final: «Pomo.toro · Cuaderno de Enfoque» — Corrección de respiración 4·7·8 y rediseño editorial completo",
+        imageFile: "pomodoro7.png",
+        prompt: `no va el metodo de respirar, y quiero que me cambies el estilo de la pagina,no que simplemente tenga un color de fondo,algo mas compleja y llamativa`,
+        finalFeatures: [
+          {
+            title: "Diseño Editorial («Pomo.toro · Cuaderno de Enfoque»)",
+            desc: "Tipografía editorial (Fraunces, Inter y JetBrains Mono) con paleta papel cálido y cambio dinámico de acento según el modo activo (Trabajo, Descanso corto y Descanso largo).",
+            icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+          },
+          {
+            title: "Modo Oscuro y Modo Enfoque (Pantalla Completa)",
+            desc: "Alternancia instantánea entre tema claro/oscuro (T) y modo concentración sin distracciones a pantalla completa (F).",
+            icon: "M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          },
+          {
+            title: "Historial Diario y Semanal",
+            desc: "Panel de progreso diario (Pomodoros, minutos de enfoque y racha), gráfico de barras de los últimos 7 días, registro histórico completo con exportación a JSON y guardado automático en localStorage.",
+            icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+          },
+          {
+            title: "Ajustes Personalizables y Notificaciones",
+            desc: "Configuración a medida de tiempos de trabajo, descansos e intervalo por ciclo, acompañado de alertas sonoras y notificaciones de escritorio.",
+            icon: "M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+          },
+          {
+            title: "Herramientas de Concentración y Atajos",
+            desc: "Ejercicio guiado de respiración 4·7·8 con orbe animado y contador de ciclos, sintetizador de sonido ambiental con Web Audio API (Lluvia, Bosque y Café), gestor de tareas persistente y atajos de teclado (Espacio, R, S, F, T, Esc).",
+            icon: "M13 10V3L4 14h7v7l9-11h-7z"
+          }
+        ]
+      }
+    ];
+
+    // Store custom object URLs if user loads local files
+    const customImageSources = {};
+    let currentFilter = 'all';
+    let currentLightboxIndex = 0;
+
+    // Show non-intrusive toast feedback
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toast-message');
+      msgEl.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2800);
+    }
+
+    // Copy prompt text reliably using execCommand fallback
+    function copyPrompt(stepNumber) {
+      const item = stepsData.find(s => s.step === stepNumber);
+      if (!item) return;
+
+      const textArea = document.createElement('textarea');
+      textArea.value = item.prompt;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(`Prompt del Paso ${stepNumber} copiado al portapapeles`);
+      } catch (err) {
+        showToast('No se pudo copiar el texto');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Handle individual file selection or drag-and-drop on a specific card
+    function assignImageFileToStep(stepNumber, file) {
+      if (!file || !file.type.startsWith('image/')) {
+        showToast('Por favor selecciona un archivo de imagen válido');
+        return;
+      }
+      const objectUrl = URL.createObjectURL(file);
+      customImageSources[stepNumber] = objectUrl;
+      renderTimeline();
+      showToast(`Imagen cargada para el Paso ${stepNumber} (${file.name})`);
+    }
+
+    // Filter cards by AI
+    function filterSteps(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.filter === filter) {
+          btn.classList.add('bg-white', 'text-zinc-900', 'shadow-sm');
+          btn.classList.remove('text-zinc-600');
+        } else {
+          btn.classList.remove('bg-white', 'text-zinc-900', 'shadow-sm');
+          btn.classList.add('text-zinc-600');
+        }
+      });
+      renderTimeline();
+    }
+
+    // Escape HTML safely
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Render all timeline step cards
+    function renderTimeline() {
+      const container = document.getElementById('timeline-container');
+      const filtered = currentFilter === 'all'
+        ? stepsData
+        : stepsData.filter(item => item.aiFilter.includes(currentFilter));
+
+      container.innerHTML = filtered.map(item => {
+        const imgSrc = customImageSources[item.step] || item.imageFile;
+        const transitionBanner = item.step === 4 ? `
+          <div class="relative sm:pl-16">
+            <!-- Timeline Milestone Dot -->
+            <div class="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-sky-500 text-white shadow-md items-center justify-center z-10 ring-4 ring-[#FAF8F5]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+            </div>
+
+            <!-- Transition Callout Card -->
+            <div class="rounded-3xl bg-gradient-to-r from-indigo-50/90 via-white to-sky-50/90 border border-indigo-200/80 p-5 sm:p-6 shadow-sm">
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="w-11 h-11 rounded-2xl bg-white border border-indigo-100 shadow-2xs flex items-center justify-center shrink-0 text-indigo-600">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+                <div class="space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">Cambio de estrategia</span>
+                    <span class="text-xs font-medium text-zinc-500">De Gemini a DeepSeek</span>
+                  </div>
+                  <p class="text-sm sm:text-[15px] text-zinc-700 leading-relaxed">
+                    Las versiones de las páginas que <strong class="font-semibold text-indigo-700">Gemini</strong> estaba generando hasta este punto no terminaban de convencer del todo. Por ello, se le pidió a Gemini que redactara un prompt mucho más completo y detallado, y ese prompt generado fue el que se utilizó en <strong class="font-semibold text-sky-700">DeepSeek</strong> para dar vida a la siguiente etapa del proyecto.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ` : '';
+
+        return `
+          ${transitionBanner}
+          <article id="paso-${item.step}" class="relative sm:pl-16 scroll-mt-24 group">
+            <!-- Timeline Node Indicator (Desktop) -->
+            <div class="hidden sm:flex absolute left-0 top-6 w-12 h-12 rounded-2xl ${item.isFinal ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' : 'bg-white border-stone-200 text-zinc-800 shadow-sm group-hover:border-pomodoro group-hover:text-pomodoro'} border items-center justify-center font-bold text-sm z-10 transition">
+              0${item.step}
+            </div>
+
+            <!-- Main Card -->
+            <div class="bg-white rounded-3xl ${item.isFinal ? 'border-2 border-emerald-500/70 shadow-md ring-4 ring-emerald-500/10' : 'border border-stone-200/90 shadow-sm hover:shadow-md'} transition-shadow duration-300 overflow-hidden">
+              
+              <!-- Card Header -->
+              <div class="px-5 py-4 sm:px-7 sm:py-5 border-b ${item.isFinal ? 'border-emerald-100 bg-gradient-to-r from-emerald-50/80 via-stone-50/70 to-amber-50/50' : 'border-stone-100 bg-stone-50/60'} flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="sm:hidden inline-flex items-center justify-center w-8 h-8 rounded-xl ${item.isFinal ? 'bg-emerald-600 text-white' : 'bg-zinc-900 text-white'} text-xs font-bold">
+                    0${item.step}
+                  </span>
+                  <div>
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                      <h2 class="text-base sm:text-lg font-bold text-zinc-900">Paso ${item.step}</h2>
+                      ${item.isFinal ? `
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-600 text-white shadow-2xs">
+                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                          Versión Final
+                        </span>
+                      ` : ''}
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${item.badgeStyle}">
+                        <span class="w-1.5 h-1.5 rounded-full ${item.dotColor}"></span>
+                        ${item.badgeText}
+                      </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-600 mt-0.5">${item.roleDescription}</p>
+                  </div>
+                </div>
+
+                <!-- Copy Prompt Button -->
+                <button onclick="copyPrompt(${item.step})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 active:scale-[0.98] border border-stone-200 text-xs font-medium text-zinc-700 shadow-2xs transition cursor-pointer">
+                  <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                  <span>Copiar prompt</span>
+                </button>
+              </div>
+
+              <!-- Prompt Block -->
+              <div class="p-5 sm:p-7">
+                <div class="mb-2 flex items-center justify-between">
+                  <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Prompt introducido</span>
+                  <span class="text-[11px] font-mono text-zinc-400">${item.imageFile}</span>
+                </div>
+                <div class="relative rounded-2xl bg-zinc-900 text-zinc-100 p-4 sm:p-5 border border-zinc-800 shadow-inner">
+                  <pre class="font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words text-zinc-200">${escapeHtml(item.prompt)}</pre>
+                </div>
+
+                ${item.finalFeatures ? `
+                  <!-- Final Product Feature Summary Sheet -->
+                  <div class="mt-6 rounded-2xl bg-gradient-to-br from-[#FAF8F5] to-stone-100/80 border border-stone-200/90 p-5 sm:p-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-stone-200/80">
+                      <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                        <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800">Ficha Técnica · Versión Final («Pomo.toro · Cuaderno de Enfoque»)</h3>
+                      </div>
+                      <span class="text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-lg">Pomodoro.html · Producto Terminado</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                      ${item.finalFeatures.map((feat, fIdx) => `
+                        <div class="${fIdx === item.finalFeatures.length - 1 ? 'md:col-span-2' : ''} bg-white rounded-xl p-4 border border-stone-200/80 shadow-2xs flex items-start gap-3">
+                          <div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${feat.icon}"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 class="text-xs sm:text-sm font-bold text-zinc-900">${feat.title}</h4>
+                            <p class="text-xs text-zinc-600 leading-relaxed mt-1">${feat.desc}</p>
+                          </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+
+                <!-- Screenshot Showcase Frame -->
+                <div class="mt-6">
+                  <div class="mb-2 flex items-center justify-between">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Resultado generado (Captura ${item.step}/${stepsData.length})</span>
+                    <div class="flex items-center gap-2">
+                      <label for="file-step-${item.step}" class="cursor-pointer text-xs text-indigo-600 hover:text-indigo-800 font-medium underline underline-offset-2">
+                        Reemplazar imagen
+                      </label>
+                      <input id="file-step-${item.step}" type="file" accept="image/*" class="hidden" onchange="handleSingleFile(event, ${item.step})">
+                    </div>
+                  </div>
+
+                  <!-- Simulated Browser Window -->
+                  <div
+                    class="browser-frame rounded-2xl border border-stone-200/90 bg-stone-100 overflow-hidden shadow-sm transition"
+                    ondragover="handleDragOver(event)"
+                    ondragleave="handleDragLeave(event)"
+                    ondrop="handleDrop(event, ${item.step})"
+                  >
+                    <!-- Browser Top Bar -->
+                    <div class="px-3.5 py-2.5 bg-stone-200/75 border-b border-stone-200 flex items-center justify-between gap-3">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                      </div>
+                      <div class="flex-1 max-w-md bg-white/90 rounded-lg px-3 py-1 text-[11px] font-mono text-zinc-500 text-center truncate border border-stone-200/60">
+                        ${item.imageFile}
+                      </div>
+                      <button onclick="openLightbox(${item.step})" class="text-zinc-500 hover:text-zinc-900 p-1 rounded-lg hover:bg-white/70 transition" title="Ampliar captura">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Screenshot Image Container -->
+                    <div class="relative bg-zinc-900/5 min-h-[220px] flex items-center justify-center overflow-hidden">
+                      <img
+                        id="img-step-${item.step}"
+                        src="${imgSrc}"
+                        alt="Captura paso ${item.step} - ${item.imageFile}"
+                        onclick="openLightbox(${item.step})"
+                        onerror="handleImageError(this, ${item.step}, '${item.imageFile}')"
+                        class="w-full h-auto max-h-[540px] object-contain cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Elegant SVG fallback if the HTML is opened outside the image folder before uploading
+    function handleImageError(imgElement, stepNumber, fileName) {
+      // Try alternative common extensions once before showing the SVG fallback
+      if (!imgElement.dataset.altExtTried) {
+        imgElement.dataset.altExtTried = 'true';
+        const baseName = fileName.replace(/\.[^/.]+$/, '');
+        if (fileName.toLowerCase().endsWith('.png')) {
+          imgElement.src = `${baseName}.jpg`;
+          return;
+        } else if (fileName.toLowerCase().endsWith('.jpg') || fileName.toLowerCase().endsWith('.jpeg')) {
+          imgElement.src = `${baseName}.png`;
+          return;
+        }
+      }
+
+      if (imgElement.dataset.fallbackApplied === 'true') return;
+      imgElement.dataset.fallbackApplied = 'true';
+
+      const svgFallback = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460">
+          <rect width="960" height="460" fill="#F5F3EF"/>
+          <rect x="24" y="24" width="912" height="412" rx="18" fill="#FFFFFF" stroke="#D6D3CD" stroke-width="2" stroke-dasharray="8 8"/>
+          <circle cx="480" cy="185" r="34" fill="#FEE2E2"/>
+          <text x="480" y="193" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#D94E4E">0${stepNumber}</text>
+          <text x="480" y="252" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#18181B">Archivo esperado: ${fileName}</text>
+          <text x="480" y="282" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#71717A">Asegúrate de que "${fileName}" se encuentre en la misma carpeta que este archivo HTML</text>
+        </svg>
+      `;
+      imgElement.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgFallback);
+      imgElement.classList.remove('cursor-zoom-in');
+    }
+
+    // Single file input handler
+    function handleSingleFile(event, stepNumber) {
+      const file = event.target.files && event.target.files[0];
+      if (file) {
+        assignImageFileToStep(stepNumber, file);
+      }
+    }
+
+    // Drag and Drop handlers per browser frame
+    function handleDragOver(event) {
+      event.preventDefault();
+      event.currentTarget.classList.add('drop-active');
+    }
+
+    function handleDragLeave(event) {
+      event.currentTarget.classList.remove('drop-active');
+    }
+
+    function handleDrop(event, stepNumber) {
+      event.preventDefault();
+      event.currentTarget.classList.remove('drop-active');
+      const file = event.dataTransfer && event.dataTransfer.files[0];
+      if (file) {
+        assignImageFileToStep(stepNumber, file);
+      }
+    }
+
+    // Lightbox functions
+    function openLightbox(stepNumber) {
+      const index = stepsData.findIndex(s => s.step === stepNumber);
+      if (index === -1) return;
+      currentLightboxIndex = index;
+      updateLightboxContent();
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightboxContent() {
+      const item = stepsData[currentLightboxIndex];
+      const renderedImg = document.getElementById(`img-step-${item.step}`);
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = renderedImg ? renderedImg.src : (customImageSources[item.step] || item.imageFile);
+
+      document.getElementById('lightbox-badge').textContent = `Paso ${item.step} · ${item.badgeText}`;
+      document.getElementById('lightbox-title').textContent = item.imageFile;
+      document.getElementById('lightbox-counter').textContent = `${currentLightboxIndex + 1} / ${stepsData.length}`;
+    }
+
+    function navigateLightbox(direction) {
+      currentLightboxIndex = (currentLightboxIndex + direction + stepsData.length) % stepsData.length;
+      updateLightboxContent();
+    }
+
+    function closeLightbox(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Keyboard navigation for Lightbox
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    });
+
+    // Initial render
+    renderTimeline();
+  </script>
+</body>
+</html>
