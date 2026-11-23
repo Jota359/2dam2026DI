@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompts e IAs Usadas para Descubre Pinto</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            paper: '#FAF8F5',
+            ink: '#18181B',
+            pinto: '#2D6A4F',
+            terracotta: '#B5651E',
+            gemini: '#4F46E5',
+            deepseek: '#0EA5E9',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #FAF8F5;
+      color: #18181B;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F1EFEA;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D6D3CD;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #A8A29E;
+    }
+    .drop-active {
+      outline: 3px dashed #2D6A4F;
+      outline-offset: -6px;
+      background-color: rgba(45, 106, 79, 0.05);
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-pinto selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-zinc-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-medium border border-zinc-700/60">
+      <span id="toast-icon" class="text-emerald-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </span>
+      <span id="toast-message">Acción completada</span>
+    </div>
+  </div>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="sticky top-0 z-30 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-stone-200/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <span class="w-3 h-3 rounded-full bg-pinto inline-block shadow-sm"></span>
+        <span class="font-semibold text-sm sm:text-base tracking-tight text-zinc-800">Bitácora de Ingeniería de Prompts</span>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Quick Filter Pills (Desktop) -->
+        <nav class="hidden md:flex items-center bg-stone-200/70 p-1 rounded-xl text-xs font-medium">
+          <button onclick="filterSteps('all')" data-filter="all" class="filter-btn px-3 py-1.5 rounded-lg bg-white text-zinc-900 shadow-sm transition">Todos (4)</button>
+          <button onclick="filterSteps('Gemini')" data-filter="Gemini" class="filter-btn px-3 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-900 transition">Gemini</button>
+          <button onclick="filterSteps('DeepSeek')" data-filter="DeepSeek" class="filter-btn px-3 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-900 transition">DeepSeek</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-16 sm:pb-14">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-pinto text-xs font-semibold tracking-wide uppercase mb-5">
+        <span>Desarrollo Asistido por IA</span>
+        <span class="text-emerald-300">•</span>
+        <span>4 Iteraciones</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-[1.12] mb-4">
+        Prompts e IAs Usadas para este trabajo
+      </h1>
+
+      <!-- Author Badge -->
+      <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-white border border-stone-200/90 shadow-2xs text-xs sm:text-sm text-zinc-700 mb-6">
+        <span class="w-6 h-6 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-[11px] font-bold tracking-tight">SJ</span>
+        <span>Autor: <strong class="font-semibold text-zinc-900">Sergio Jiménez Centellas</strong></span>
+      </div>
+
+      <p class="text-base sm:text-lg text-zinc-600 leading-relaxed mb-8">
+        Documentación cronológica del proceso creativo y técnico detrás de la guía turística web <strong class="font-semibold text-zinc-800">Descubre Pinto</strong>. Explora cómo cada instrucción iterativa en <span class="text-gemini font-semibold">Gemini</span> y <span class="text-deepseek font-semibold">DeepSeek</span> dio forma a una guía interactiva con fotografías reales de Pinto (Madrid) y navegación completa.
+      </p>
+
+      <!-- Legend & Quick Info Banner -->
+      <div class="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-zinc-600 bg-white border border-stone-200/90 rounded-2xl p-4 shadow-sm">
+        <span class="font-semibold text-zinc-800 mr-1">Modelos utilizados:</span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-medium border border-indigo-100">
+          <span class="w-2 h-2 rounded-full bg-indigo-600"></span> Gemini (Pasos 1, 3 y 4)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 font-medium border border-sky-100">
+          <span class="w-2 h-2 rounded-full bg-sky-500"></span> DeepSeek (Pasos 1 y 2)
+        </span>
+        <span class="ml-auto text-xs text-zinc-400 hidden sm:inline">
+          Haz clic en cualquier captura para ampliar
+        </span>
+      </div>
+    </div>
+
+    <!-- Step Quick Jump Pills -->
+    <div class="mt-8 flex items-center gap-2 overflow-x-auto pb-2">
+      <span class="text-xs font-medium text-zinc-400 uppercase tracking-wider mr-1 shrink-0">Ir a:</span>
+      <a href="#paso-1" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 1</a>
+      <a href="#paso-2" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 2</a>
+      <a href="#paso-3" class="shrink-0 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-xs font-medium text-zinc-700 transition">Paso 3</a>
+      <a href="#paso-4" class="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-xs font-semibold text-emerald-800 transition">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+        Paso 4 · Versión Final
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Timeline Container -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    <div id="timeline-container" class="relative space-y-12 sm:space-y-16 before:content-[''] before:hidden sm:before:block before:absolute before:left-6 before:top-4 before:bottom-4 before:w-px before:bg-stone-300">
+      <!-- Cards will be rendered dynamically via JavaScript -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-stone-200 bg-white py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+      <p class="font-medium text-zinc-700">Prompts e IAs Usadas para este trabajo — Realizado por <strong class="font-semibold text-zinc-900">Sergio Jiménez Centellas</strong></p>
+      <p>Portafolio de Desarrollo · Guía Turística de Pinto (<code class="bg-stone-100 px-1.5 py-0.5 rounded text-zinc-700">1.png</code> … <code class="bg-stone-100 px-1.5 py-0.5 rounded text-zinc-700">4.jpg</code>)</p>
+    </div>
+  </footer>
+
+  <!-- Full-Screen Lightbox Modal -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8" onclick="closeLightbox(event)">
+    <div class="relative max-w-6xl w-full max-h-full flex flex-col items-center" onclick="event.stopPropagation()">
+      <!-- Top Bar -->
+      <div class="w-full flex items-center justify-between text-white mb-3 px-1">
+        <div class="flex items-center gap-3">
+          <span id="lightbox-badge" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-pinto text-white">Paso 1</span>
+          <span id="lightbox-title" class="text-sm sm:text-base font-medium text-zinc-200">1.png</span>
+        </div>
+        <button onclick="closeLightbox()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition" aria-label="Cerrar vista ampliada">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Enlarged Image -->
+      <div class="relative bg-zinc-900 rounded-2xl overflow-hidden border border-white/15 shadow-2xl max-h-[82vh] flex items-center justify-center">
+        <img id="lightbox-img" src="" alt="Captura ampliada" class="max-h-[80vh] w-auto object-contain">
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="mt-4 flex items-center gap-3">
+        <button onclick="navigateLightbox(-1)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-medium transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          Anterior
+        </button>
+        <span id="lightbox-counter" class="text-xs text-zinc-400 font-mono px-2">1 / 4</span>
+        <button onclick="navigateLightbox(1)" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-medium transition flex items-center gap-1.5">
+          Siguiente
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const stepsData = [
+      {
+        step: 1,
+        ai: "Gemini / DeepSeek",
+        aiFilter: ["Gemini", "DeepSeek"],
+        badgeText: "Gemini → DeepSeek",
+        badgeStyle: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        dotColor: "bg-indigo-600",
+        roleDescription: "Generación del prompt maestro con Gemini y creación de la primera versión de la Guía Turística de Pinto en DeepSeek",
+        contextNote: "En primer lugar, se pidió ayuda a Gemini para redactar una especificación técnica completa y detallada. Después, el prompt generado por Gemini fue el que se introdujo literalmente en DeepSeek para crear la primera versión de la página web.",
+        prePromptLabel: "1. Prompt inicial pedido a Gemini",
+        prePrompt: `hazme un prompt para una ia,para que cree una pagina web,siendo esta responsive y multiplataforma,que sea como una guia turistica de pinto,Madrid( sitios turísticos, restaurantes, deportes, …).`,
+        promptLabel: "2. Prompt generado por Gemini e introducido en DeepSeek",
+        imageFile: "1.png",
+        prompt: `Actúa como un desarrollador Full-Stack Senior y diseñador UI/UX experto. Necesito que crees el código completo de una aplicación web moderna, responsive y multiplataforma (Mobile-First, adaptable a móviles, tablets y escritorio) que funcione como una **Guía Turística y de Ocio Oficial de Pinto (Madrid)**.
+
+### 1. Stack Tecnológico y Requisitos Técnicos
+- **Tecnologías:** HTML5 semántico, CSS3 moderno (o Tailwind CSS) y JavaScript (ES6+) limpio y modular (o React si el entorno lo permite, en un único archivo o estructura clara lista para ejecutar).
+- **Diseño Responsive y Multiplataforma:** Uso de CSS Grid y Flexbox, menú de navegación tipo hamburguesa en móviles, botones táctiles accesibles y soporte para modo claro/oscuro (Dark Mode toggle).
+- **Interactividad sin backend externo:** Todos los datos deben estar estructurados en un objeto JSON/JS interno para que la web funcione de inmediato con filtros en tiempo real, buscador instantáneo, sistema de "Favoritos" guardado en \`localStorage\` y modales de detalle.
+
+### 2. Identidad Visual y Estilo
+- **Estética:** Limpia, acogedora, moderna y editorial, inspirada en portales de turismo contemporáneos.
+- **Paleta de colores:** Tonos piedra cálidos y blanco hueso de fondo, verde bosque (representando sus parques y naturaleza), terracota/dorado (patrimonio histórico) y azul oscuro para textos y contrastes.
+- **Tipografía:** Combinación de una fuente Serif elegante para títulos principales y una Sans-Serif limpia (como Inter o Plus Jakarta Sans) para lectura y tarjetas.
+
+### 3. Estructura y Secciones de la Web
+1. **Header / Navbar fijo:** Logotipo ("Descubre Pinto"), enlaces de navegación rápida, barra de búsqueda en vivo, botón de "Mis Favoritos" (con contador) y selector de modo claro/oscuro.
+2. **Hero Section impactante:** Título atractivo ("Pinto: Historia, Naturaleza y Vida en el Centro de la Península"), subtítulo breve, buscador principal y botones de acceso rápido a categorías.
+3. **Filtros por Categoría e Interactividad:** Barra de pestañas interactiva para filtrar las tarjetas por: *Todo, Patrimonio y Cultura, Naturaleza, Gastronomía, Deportes y Ocio, Rutas*.
+4. **Contenido Real y Local de Pinto (incluir tarjetas detalladas con imagen placeholder temática, descripción, ubicación, etiquetas y botón de "Ver más / Cómo llegar"):**
+   - **Sitios Turísticos y Patrimonio:**
+     - *Torre de Éboli:* Fortaleza medieval del siglo XIV vinculada a la Princesa de Éboli (incluir dato sobre visitas guiadas).
+     - *Iglesia de Santo Domingo de Silos:* Joya arquitectónica de los siglos XVI-XVII con retablo barroco.
+     - *Monolito del Centro Geográfico de la Península Ibérica:* Ubicado junto al Parque del Egido y la Fuente de los Cuatro Caños.
+     - *Casa de la Cadena:* Edificio histórico del siglo XV convertido en centro cultural y biblioteca.
+     - *Plaza de la Constitución y Ayuntamiento:* Plaza porticada castellana, epicentro de la vida local.
+     - *Convento de las Monjas Capuchinas y Ermita del Cristo* (con su olmo centenario).
+   - **Naturaleza y Familia:**
+     - *Parque Municipal Juan Carlos I:* El pulmón verde de Pinto, con lago, auditorio y más de 5.000 árboles.
+     - *Arqueopinto:* Parque temático de la Prehistoria ideal para familias y niños.
+     - *Parque del Egido:* El parque histórico más emblemático del centro urbano.
+   - **Gastronomía y Tapeo:**
+     - Zona de tapeo tradicional por las calles peatonales del centro y entorno del Ayuntamiento.
+     - Oferta gastronómica destacada (asadores castellanos, arrocerías, cocina de autor como Éboli Gastro y opciones modernas en el entorno del Parque Juan Carlos I y Plaza Éboli).
+   - **Deportes y Ocio:**
+     - *Polideportivo Municipal Príncipe de Asturias* y *Estadio Rafael Mendoza*.
+     - *Centro Hípico* (en el Parque Juan Carlos I) y *Karting Pinto*.
+     - *Rutas Ciclistas y Senderismo:* Cañada Real Galiana y caminos hacia el Parque Regional del Sureste (guiño a la tradición ciclista de Pinto, cuna de Alberto Contador).
+     - *Teatro Francisco Rabal* (agenda cultural) y *Centro Comercial Plaza Éboli*.
+5. **Sección "Planifica tu Visita" (Itinerarios):** 3 tarjetas con rutas sugeridas ("Pinto Histórico en 1 día", "Plan en familia con niños", "Escapada deportiva y natural").
+6. **Información Práctica y Transporte:** Cómo llegar desde Madrid (Cercanías Renfe Línea C-3, autobuses interurbanos desde Villaverde Bajo, acceso por A-4), teléfonos de interés y enlace directo a Google Maps en cada ficha.
+7. **Footer:** Enlaces rápidos, aviso de guía turística y créditos.
+
+### 4. Entregable
+Genera el código completo, bien comentado, sin recortes ni placeholders de código ("// aquí va el resto"), asegurándote de que todas las interacciones (filtros, búsqueda, favoritos y modal de detalles) funcionen perfectamente desde el primer momento.`
+      },
+      {
+        step: 2,
+        ai: "DeepSeek",
+        aiFilter: ["DeepSeek"],
+        badgeText: "DeepSeek",
+        badgeStyle: "bg-sky-50 text-sky-700 border-sky-200",
+        dotColor: "bg-sky-500",
+        roleDescription: "Intento de añadir fotografías reales en DeepSeek mediante URLs genéricas que no correspondían a Pinto",
+        imageFile: "2.jpg",
+        prompt: `esta genial,no quiero que cambies nada,pero no me cargan las imágenes`
+      },
+      {
+        step: 3,
+        ai: "Gemini",
+        aiFilter: ["Gemini"],
+        badgeText: "Gemini",
+        badgeStyle: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        dotColor: "bg-indigo-600",
+        roleDescription: "Cambio a Gemini para sustituir las 18 imágenes genéricas por fotografías reales de cada monumento y lugar de Pinto",
+        imageFile: "3.jpg",
+        prompt: `Tengo esta página web,pero las fotos que me pone no son las que yo quiero de Pinto,podrias reemplazarlas?`
+      },
+      {
+        step: 4,
+        isFinal: true,
+        ai: "Gemini",
+        aiFilter: ["Gemini"],
+        badgeText: "Gemini",
+        badgeStyle: "bg-indigo-50 text-indigo-700 border-indigo-200",
+        dotColor: "bg-pinto",
+        roleDescription: "Versión Final: «Descubre Pinto · Guía Turística Oficial» — Corrección del reseteo de filtros al volver a «Todo» y navegación completa",
+        imageFile: "4.jpg",
+        prompt: `esta genial,pero si yo le doy por ejemplo a alguna Opcion de "Planifica tu visita",luego no me deja ver todo otra vez,solo las cosas que he filtrado,tengo que recargar la pagina para que me vuelva a mostrar todo`,
+        finalFeatures: [
+          {
+            title: "Fotografías Reales de Pinto (18 Fichas)",
+            desc: "Integración de imágenes auténticas de la Torre de Éboli, Iglesia de Santo Domingo de Silos, Monolito del Centro Geográfico, Casa de la Cadena, Plaza de la Constitución, Parque Juan Carlos I, Arqueopinto y más.",
+            icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+          },
+          {
+            title: "Restauración Instantánea de Filtros y Búsqueda",
+            desc: "Al seleccionar un itinerario en «Planifica tu visita» y pulsar después en «Todo» o en cualquier pestaña/enlace del menú, se limpia la búsqueda activa y vuelven a mostrarse todas las tarjetas sin recargar.",
+            icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          },
+          {
+            title: "Buscador en Vivo, Favoritos y Modo Oscuro",
+            desc: "Filtrado en tiempo real desde la cabecera o el buscador principal, sistema de lugares favoritos persistente en localStorage con contador y alternancia entre tema claro y oscuro.",
+            icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          },
+          {
+            title: "Modales de Detalle y Enlaces Directos a Maps",
+            desc: "Cada lugar dispone de ventana modal informativa con horarios, precios, etiquetas temáticas y botón directo de «Cómo llegar» en Google Maps.",
+            icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+          },
+          {
+            title: "Diseño Editorial Responsive y Multiplataforma",
+            desc: "Tipografía Playfair Display y Plus Jakarta Sans sobre paleta piedra cálido, verde bosque y terracota, con menú hamburguesa móvil y secciones de itinerarios e información práctica de transporte.",
+            icon: "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+          }
+        ]
+      }
+    ];
+
+    const customImageSources = {};
+    let currentFilter = 'all';
+    let currentLightboxIndex = 0;
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toast-message');
+      msgEl.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2800);
+    }
+
+    function copyPrompt(stepNumber) {
+      const item = stepsData.find(s => s.step === stepNumber);
+      if (!item) return;
+
+      const textArea = document.createElement('textarea');
+      textArea.value = item.prompt;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(`Prompt del Paso ${stepNumber} copiado al portapapeles`);
+      } catch (err) {
+        showToast('No se pudo copiar el texto');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function filterSteps(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.filter === filter) {
+          btn.classList.add('bg-white', 'text-zinc-900', 'shadow-sm');
+          btn.classList.remove('text-zinc-600');
+        } else {
+          btn.classList.remove('bg-white', 'text-zinc-900', 'shadow-sm');
+          btn.classList.add('text-zinc-600');
+        }
+      });
+      renderTimeline();
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderTimeline() {
+      const container = document.getElementById('timeline-container');
+      const filtered = currentFilter === 'all'
+        ? stepsData
+        : stepsData.filter(item => item.aiFilter.includes(currentFilter));
+
+      container.innerHTML = filtered.map(item => {
+        const imgSrc = customImageSources[item.step] || item.imageFile;
+        const transitionBanner = item.step === 3 ? `
+          <div class="relative sm:pl-16">
+            <!-- Timeline Milestone Dot -->
+            <div class="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-white shadow-md items-center justify-center z-10 ring-4 ring-[#FAF8F5]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+            </div>
+
+            <!-- Transition Callout Card -->
+            <div class="rounded-3xl bg-gradient-to-r from-sky-50/90 via-white to-indigo-50/90 border border-indigo-200/80 p-5 sm:p-6 shadow-sm">
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class="w-11 h-11 rounded-2xl bg-white border border-indigo-100 shadow-2xs flex items-center justify-center shrink-0 text-indigo-600">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+                <div class="space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">Cambio de IA</span>
+                    <span class="text-xs font-medium text-zinc-500">De DeepSeek a Gemini</span>
+                  </div>
+                  <p class="text-sm sm:text-[15px] text-zinc-700 leading-relaxed">
+                    <strong class="font-semibold text-sky-700">DeepSeek</strong> no terminaba de corregir el problema de las fotografías y seguía mostrando imágenes genéricas que no correspondían a Pinto. Por ello, se cambió a <strong class="font-semibold text-indigo-700">Gemini</strong> pasándole la última versión de la página web para sustituir las 18 fotos por imágenes reales del municipio y pulir la navegación.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ` : '';
+
+        return `
+          ${transitionBanner}
+          <article id="paso-${item.step}" class="relative sm:pl-16 scroll-mt-24 group">
+            <!-- Timeline Node Indicator (Desktop) -->
+            <div class="hidden sm:flex absolute left-0 top-6 w-12 h-12 rounded-2xl ${item.isFinal ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' : 'bg-white border-stone-200 text-zinc-800 shadow-sm group-hover:border-pinto group-hover:text-pinto'} border items-center justify-center font-bold text-sm z-10 transition">
+              0${item.step}
+            </div>
+
+            <!-- Main Card -->
+            <div class="bg-white rounded-3xl ${item.isFinal ? 'border-2 border-emerald-500/70 shadow-md ring-4 ring-emerald-500/10' : 'border border-stone-200/90 shadow-sm hover:shadow-md'} transition-shadow duration-300 overflow-hidden">
+              
+              <!-- Card Header -->
+              <div class="px-5 py-4 sm:px-7 sm:py-5 border-b ${item.isFinal ? 'border-emerald-100 bg-gradient-to-r from-emerald-50/80 via-stone-50/70 to-amber-50/50' : 'border-stone-100 bg-stone-50/60'} flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="sm:hidden inline-flex items-center justify-center w-8 h-8 rounded-xl ${item.isFinal ? 'bg-emerald-600 text-white' : 'bg-zinc-900 text-white'} text-xs font-bold">
+                    0${item.step}
+                  </span>
+                  <div>
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                      <h2 class="text-base sm:text-lg font-bold text-zinc-900">Paso ${item.step}</h2>
+                      ${item.isFinal ? `
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-600 text-white shadow-2xs">
+                          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                          Versión Final
+                        </span>
+                      ` : ''}
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${item.badgeStyle}">
+                        <span class="w-1.5 h-1.5 rounded-full ${item.dotColor}"></span>
+                        ${item.badgeText}
+                      </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-zinc-600 mt-0.5">${item.roleDescription}</p>
+                  </div>
+                </div>
+
+                <!-- Copy Prompt Button -->
+                <button onclick="copyPrompt(${item.step})" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 active:scale-[0.98] border border-stone-200 text-xs font-medium text-zinc-700 shadow-2xs transition cursor-pointer">
+                  <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                  <span>Copiar prompt</span>
+                </button>
+              </div>
+
+              <!-- Prompt Block -->
+              <div class="p-5 sm:p-7">
+                ${item.contextNote ? `
+                  <div class="mb-5 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 p-4 text-xs sm:text-sm text-zinc-700 leading-relaxed flex items-start gap-3">
+                    <div class="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    </div>
+                    <p>${escapeHtml(item.contextNote)}</p>
+                  </div>
+                ` : ''}
+
+                ${item.prePrompt ? `
+                  <div class="mb-5">
+                    <div class="mb-2 flex items-center justify-between">
+                      <span class="text-[11px] font-semibold uppercase tracking-wider text-indigo-600">${escapeHtml(item.prePromptLabel)}</span>
+                    </div>
+                    <div class="relative rounded-2xl bg-zinc-900 text-zinc-100 p-4 sm:p-5 border border-zinc-800 shadow-inner">
+                      <pre class="font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words text-zinc-200">${escapeHtml(item.prePrompt)}</pre>
+                    </div>
+                  </div>
+                ` : ''}
+
+                <div class="mb-2 flex items-center justify-between">
+                  <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">${item.promptLabel ? escapeHtml(item.promptLabel) : 'Prompt introducido'}</span>
+                  <span class="text-[11px] font-mono text-zinc-400">${item.imageFile}</span>
+                </div>
+                <div class="relative rounded-2xl bg-zinc-900 text-zinc-100 p-4 sm:p-5 border border-zinc-800 shadow-inner">
+                  <pre class="font-mono text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words text-zinc-200">${escapeHtml(item.prompt)}</pre>
+                </div>
+
+                ${item.finalFeatures ? `
+                  <!-- Final Product Feature Summary Sheet -->
+                  <div class="mt-6 rounded-2xl bg-gradient-to-br from-[#FAF8F5] to-stone-100/80 border border-stone-200/90 p-5 sm:p-6">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-stone-200/80">
+                      <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                        <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-800">Ficha Técnica · Versión Final («Descubre Pinto · Guía Turística Oficial»)</h3>
+                      </div>
+                      <span class="text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-lg">Pinto.html · Producto Terminado</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                      ${item.finalFeatures.map((feat, fIdx) => `
+                        <div class="${fIdx === item.finalFeatures.length - 1 ? 'md:col-span-2' : ''} bg-white rounded-xl p-4 border border-stone-200/80 shadow-2xs flex items-start gap-3">
+                          <div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${feat.icon}"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 class="text-xs sm:text-sm font-bold text-zinc-900">${feat.title}</h4>
+                            <p class="text-xs text-zinc-600 leading-relaxed mt-1">${feat.desc}</p>
+                          </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+
+                <!-- Screenshot Showcase Frame -->
+                <div class="mt-6">
+                  <div class="mb-2 flex items-center justify-between">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Resultado generado (Captura ${item.step}/${stepsData.length})</span>
+                    <div class="flex items-center gap-2">
+                      <label for="file-step-${item.step}" class="cursor-pointer text-xs text-pinto hover:text-emerald-800 font-medium underline underline-offset-2">
+                        Reemplazar imagen
+                      </label>
+                      <input id="file-step-${item.step}" type="file" accept="image/*" class="hidden" onchange="handleSingleFile(event, ${item.step})">
+                    </div>
+                  </div>
+
+                  <!-- Simulated Browser Window -->
+                  <div
+                    class="browser-frame rounded-2xl border border-stone-200/90 bg-stone-100 overflow-hidden shadow-sm transition"
+                    ondragover="handleDragOver(event)"
+                    ondragleave="handleDragLeave(event)"
+                    ondrop="handleDrop(event, ${item.step})"
+                  >
+                    <!-- Browser Top Bar -->
+                    <div class="px-3.5 py-2.5 bg-stone-200/75 border-b border-stone-200 flex items-center justify-between gap-3">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                      </div>
+                      <div class="flex-1 max-w-md bg-white/90 rounded-lg px-3 py-1 text-[11px] font-mono text-zinc-500 text-center truncate border border-stone-200/60">
+                        ${item.imageFile}
+                      </div>
+                      <button onclick="openLightbox(${item.step})" class="text-zinc-500 hover:text-zinc-900 p-1 rounded-lg hover:bg-white/70 transition" title="Ampliar captura">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                        </svg>
+                      </button>
+                    </div>
+
+                    <!-- Screenshot Image Container -->
+                    <div class="relative bg-zinc-900/5 min-h-[220px] flex items-center justify-center overflow-hidden">
+                      <img
+                        id="img-step-${item.step}"
+                        src="${imgSrc}"
+                        alt="Captura paso ${item.step} - ${item.imageFile}"
+                        onclick="openLightbox(${item.step})"
+                        onerror="handleImageError(this, ${item.step}, '${item.imageFile}')"
+                        class="w-full h-auto max-h-[540px] object-contain cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function assignImageFileToStep(stepNumber, file) {
+      if (!file || !file.type.startsWith('image/')) {
+        showToast('Por favor selecciona un archivo de imagen válido');
+        return;
+      }
+      const objectUrl = URL.createObjectURL(file);
+      customImageSources[stepNumber] = objectUrl;
+      renderTimeline();
+      showToast(`Imagen cargada para el Paso ${stepNumber} (${file.name})`);
+    }
+
+    function handleImageError(imgElement, stepNumber, fileName) {
+      if (!imgElement.dataset.altExtTried) {
+        imgElement.dataset.altExtTried = 'true';
+        const baseName = fileName.replace(/\.[^/.]+$/, '');
+        if (fileName.toLowerCase().endsWith('.png')) {
+          imgElement.src = `${baseName}.jpg`;
+          return;
+        } else if (fileName.toLowerCase().endsWith('.jpg') || fileName.toLowerCase().endsWith('.jpeg')) {
+          imgElement.src = `${baseName}.png`;
+          return;
+        }
+      }
+
+      if (imgElement.dataset.fallbackApplied === 'true') return;
+      imgElement.dataset.fallbackApplied = 'true';
+
+      const svgFallback = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="960" height="460" viewBox="0 0 960 460">
+          <rect width="960" height="460" fill="#F5F3EF"/>
+          <rect x="24" y="24" width="912" height="412" rx="18" fill="#FFFFFF" stroke="#D6D3CD" stroke-width="2" stroke-dasharray="8 8"/>
+          <circle cx="480" cy="185" r="34" fill="#DCFCE7"/>
+          <text x="480" y="193" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#2D6A4F">0${stepNumber}</text>
+          <text x="480" y="252" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#18181B">Archivo esperado: ${fileName}</text>
+          <text x="480" y="282" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#71717A">Asegúrate de que "${fileName}" se encuentre en la misma carpeta que este archivo HTML</text>
+        </svg>
+      `;
+      imgElement.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgFallback);
+      imgElement.classList.remove('cursor-zoom-in');
+    }
+
+    function handleSingleFile(event, stepNumber) {
+      const file = event.target.files && event.target.files[0];
+      if (file) {
+        assignImageFileToStep(stepNumber, file);
+      }
+    }
+
+    function handleDragOver(event) {
+      event.preventDefault();
+      event.currentTarget.classList.add('drop-active');
+    }
+
+    function handleDragLeave(event) {
+      event.currentTarget.classList.remove('drop-active');
+    }
+
+    function handleDrop(event, stepNumber) {
+      event.preventDefault();
+      event.currentTarget.classList.remove('drop-active');
+      const file = event.dataTransfer && event.dataTransfer.files[0];
+      if (file) {
+        assignImageFileToStep(stepNumber, file);
+      }
+    }
+
+    function openLightbox(stepNumber) {
+      const index = stepsData.findIndex(s => s.step === stepNumber);
+      if (index === -1) return;
+      currentLightboxIndex = index;
+      updateLightboxContent();
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightboxContent() {
+      const item = stepsData[currentLightboxIndex];
+      const renderedImg = document.getElementById(`img-step-${item.step}`);
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = renderedImg ? renderedImg.src : (customImageSources[item.step] || item.imageFile);
+
+      document.getElementById('lightbox-badge').textContent = `Paso ${item.step} · ${item.badgeText}`;
+      document.getElementById('lightbox-title').textContent = item.imageFile;
+      document.getElementById('lightbox-counter').textContent = `${currentLightboxIndex + 1} / ${stepsData.length}`;
+    }
+
+    function navigateLightbox(direction) {
+      currentLightboxIndex = (currentLightboxIndex + direction + stepsData.length) % stepsData.length;
+      updateLightboxContent();
+    }
+
+    function closeLightbox(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+    });
+
+    renderTimeline();
+  </script>
+</body>
+</html>

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Descubre Pinto · Guía Turística Oficial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-body: #f9f6f0;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --text-primary: #1e2b3c;
+      --text-secondary: #4a5a6a;
+      --text-muted: #6c7a8a;
+      --border-light: #e5e0d8;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.08);
+      --forest: #2d6a4f;
+      --forest-light: #40916c;
+      --terracotta: #b5651e;
+      --terracotta-light: #d98c4a;
+      --gold: #b8860b;
+      --nav-bg: rgba(255, 255, 255, 0.92);
+      --nav-border: rgba(0, 0, 0, 0.04);
+      --input-bg: #ffffff;
+      --modal-overlay: rgba(0, 0, 0, 0.5);
+      --transition: 0.25s ease;
+    }
+
+    .dark-mode {
+      --bg-body: #121a21;
+      --bg-surface: #1e2a32;
+      --bg-card: #1e2a32;
+      --text-primary: #f0f3f7;
+      --text-secondary: #cbd5e0;
+      --text-muted: #94a3b8;
+      --border-light: #2d3f4b;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.4);
+      --forest: #40916c;
+      --forest-light: #52b788;
+      --terracotta: #d98c4a;
+      --terracotta-light: #e6a86b;
+      --gold: #d4a017;
+      --nav-bg: rgba(18, 26, 33, 0.94);
+      --nav-border: rgba(255, 255, 255, 0.06);
+      --input-bg: #2a3a45;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.5;
+      transition: background-color var(--transition), color var(--transition);
+      padding-top: 72px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    img { max-width: 100%; display: block; }
+
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1.25rem; }
+
+    /* ========== HEADER ========== */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--nav-border);
+      transition: background var(--transition), border var(--transition);
+    }
+
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 0.65rem 1.25rem;
+      max-width: 1280px; margin: 0 auto;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; font-size: 1.4rem;
+      color: var(--forest); letter-spacing: -0.02em; white-space: nowrap;
+    }
+    .logo i { font-size: 1.6rem; color: var(--terracotta); }
+
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); transition: color var(--transition); }
+    .nav-links a:hover { color: var(--forest); }
+
+    .search-header {
+      display: flex; align-items: center;
+      background: var(--input-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 40px; padding: 0.3rem 0.9rem;
+      transition: border var(--transition), background var(--transition);
+    }
+    .search-header i { color: var(--text-muted); font-size: 0.85rem; }
+    .search-header input {
+      border: none; background: transparent;
+      padding: 0.4rem 0.5rem; font-size: 0.85rem;
+      color: var(--text-primary); outline: none;
+      width: 150px; font-family: inherit;
+    }
+    .search-header input::placeholder { color: var(--text-muted); }
+
+    .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+    .icon-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: transparent; color: var(--text-secondary);
+      font-size: 1.1rem; transition: background var(--transition), color var(--transition);
+      position: relative;
+    }
+    .icon-btn:hover { background: rgba(64, 145, 108, 0.1); color: var(--forest); }
+
+    .fav-counter {
+      position: absolute; top: -2px; right: -2px;
+      background: var(--terracotta); color: #fff;
+      font-size: 0.65rem; font-weight: 700;
+      min-width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px; line-height: 1;
+    }
+
+    .hamburger { display: none; font-size: 1.4rem; color: var(--text-primary); }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 72px; left: 0; right: 0;
+      background: var(--bg-surface); border-bottom: 1px solid var(--border-light);
+      padding: 1rem 1.25rem; flex-direction: column; gap: 0.75rem;
+      z-index: 999; box-shadow: var(--shadow);
+      animation: slideDown 0.25s ease;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { padding: 0.6rem 0; font-weight: 500; color: var(--text-secondary); border-bottom: 1px solid var(--border-light); }
+    .mobile-menu .search-header { width: 100%; margin-top: 0.5rem; }
+    .mobile-menu .search-header input { width: 100%; }
+
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ========== HERO ========== */
+    .hero {
+      position: relative; padding: 3rem 0 2.5rem;
+      background: linear-gradient(145deg, rgba(45, 106, 79, 0.06) 0%, rgba(181, 101, 30, 0.04) 100%);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .hero-content { max-width: 760px; }
+    .hero-badge {
+      display: inline-block; background: var(--forest); color: #fff;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; padding: 0.3rem 0.9rem;
+      border-radius: 40px; margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 1rem; letter-spacing: -0.02em; }
+    .hero h1 span { color: var(--forest); }
+    .hero p { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 1.8rem; max-width: 600px; }
+
+    .hero-search {
+      display: flex; align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: 60px; padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+      max-width: 560px; box-shadow: var(--shadow);
+      transition: border var(--transition), background var(--transition);
+    }
+    .hero-search i { color: var(--text-muted); font-size: 1rem; }
+    .hero-search input {
+      flex: 1; border: none; background: transparent;
+      padding: 0.7rem 0.75rem; font-size: 0.95rem;
+      color: var(--text-primary); outline: none; font-family: inherit;
+    }
+    .hero-search input::placeholder { color: var(--text-muted); }
+
+    .btn-primary {
+      background: var(--forest); color: #fff;
+      font-weight: 600; font-size: 0.9rem;
+      padding: 0.7rem 1.6rem; border-radius: 40px;
+      transition: background var(--transition), transform var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--forest-light); transform: scale(1.02); }
+
+    .quick-categories { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.6rem; }
+    .quick-cat-btn {
+      background: var(--bg-surface); border: 1px solid var(--border-light);
+      border-radius: 40px; padding: 0.45rem 1.1rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);
+      transition: all var(--transition);
+    }
+    .quick-cat-btn:hover { border-color: var(--forest); color: var(--forest); background: rgba(64, 145, 108, 0.06); }
+    .quick-cat-btn.active { background: var(--forest); color: #fff; border-color: var(--forest); }
+
+    /* ========== FILTROS ========== */
+    .filter-section { padding: 2rem 0 0.5rem; }
+    .filter-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .filter-tab {
+      padding: 0.55rem 1.3rem; border-radius: 40px;
+      font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
+      background: var(--bg-surface); border: 1px solid var(--border-light);
+      transition: all var(--transition); white-space: nowrap;
+    }
+    .filter-tab:hover { border-color: var(--forest); color: var(--forest); }
+    .filter-tab.active { background: var(--forest); color: #fff; border-color: var(--forest); }
+
+    /* ========== GRID Y TARJETAS ========== */
+    .cards-section { padding: 1rem 0 3rem; }
+    .cards-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 640px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .card {
+      background: var(--bg-card); border-radius: 1.25rem; overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border-light);
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+    /* ----- IMAGEN DE TARJETA (CON FONDO REAL) ----- */
+    .card-img {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: #2d6a4f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Ocultamos el icono de Font Awesome porque ahora hay imagen real */
+    .card-img > i:not(.fav-btn i) { display: none; }
+
+    /* Oscurecido suave para que el botón de favorito se lea bien sobre la foto */
+    .card-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 100%);
+      pointer-events: none;
+    }
+
+    /* Imágenes reales de Pinto por tarjeta */
+    .card[data-id="torre-eboli"] .card-img {
+      background-image: url('https://th.bing.com/th/id/R.3530f7df0beff9403f5a66101bef6c77?rik=UOiiM6F4tYdBCw&riu=http%3a%2f%2fzonaretiro.com%2fwp-content%2ffotos%2f2019%2f02%2ftorre-eboli.jpg&ehk=tQL0ZYUmQwIuUhEGNax8TzzNNb%2f7HL8cpikMMPe7dXw%3d&risl=&pid=ImgRaw&r=0');
+    }
+    .card[data-id="iglesia-santo-domingo"] .card-img {
+      background-image: url('https://www.hotelindiana.es/wp-content/uploads/2025/11/Iglesia-de-Santo-Domingo-de-Silos.jpg');
+    }
+    .card[data-id="monolito-geografico"] .card-img {
+      background-image: url('https://www.hotelindiana.es/wp-content/uploads/2025/11/Monolito-Centro-Geografico-de-la-Peninsula-Iberica.jpg');
+    }
+    .card[data-id="casa-cadena"] .card-img {
+      background-image: url('https://madrid365.es/wp-content/uploads/2020/10/Pinto-e1602790608306.jpg');
+    }
+    .card[data-id="plaza-constitucion"] .card-img {
+      background-image: url('https://madrid365.es/wp-content/uploads/2020/04/Ayuntamiento_de_Pinto_Comunidad_de_Madrid.jpg');
+    }
+    .card[data-id="convento-capuchinas"] .card-img {
+      background-image: url('https://revistamaspinto.com/wp-content/uploads/2019/09/82-ermita.jpg');
+    }
+    .card[data-id="parque-juan-carlos"] .card-img {
+      background-image: url('https://th.bing.com/th/id/R.21e1db83c9b94cf95c687f7ecfbf19ba?rik=MLKkzhLqZwRQwA&riu=http%3a%2f%2fwww.pequeplanning.com%2fwp-content%2fuploads%2f2019%2f11%2flago-1024x683.jpg&ehk=%2bHhYjQg%2fSNG%2bseJAgSB6tMb2F4tPtvVLKq0owm%2bnd%2f8%3d&risl=&pid=ImgRaw&r=0');
+    }
+    .card[data-id="arqueopinto"] .card-img {
+      background-image: url('https://quehacerconlosninos.es/wp-content/uploads/2026/04/feria-prehistorica-de-Arqueopinto-3.webp');
+    }
+    .card[data-id="parque-egido"] .card-img {
+      background-image: url('https://e-pinto.com/wp-content/uploads/2024/04/IMG_2020-1024x724.jpg');
+    }
+    .card[data-id="zona-tapeo"] .card-img {
+      background-image: url('https://images1.loopnet.com/i2/UZgFznIUwkig_SDyi-NvIv0BtF4NOv36Mz2N-9nwHq0/110/Calle-Real-19-Pinto-Madrid-Primary-Photo-1-Large.jpg');
+    }
+    .card[data-id="gastro-eboli"] .card-img {
+      background-image: url('https://www.plazaeboli.com/wp-content/uploads/2019/09/zona-restauracion.jpg');
+    }
+    .card[data-id="polideportivo"] .card-img {
+      background-image: url('https://ddauarquitectos.com/wp-content/uploads/2020/02/poli.jpg');
+    }
+    .card[data-id="centro-hipico"] .card-img {
+      background-image: url('https://tse2.mm.bing.net/th/id/OIP.gX8eYsVkqZtRAEJ0Zy6LjwHaFj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3');
+    }
+    .card[data-id="rutas-bici"] .card-img {
+      background-image: url('https://th.bing.com/th/id/R.e549dbdca485f51d5828c1b2a9cd3cc5?rik=Ub4Y%2bY5%2buOWPow&riu=http%3a%2f%2fpintoenverde.es%2fwp-content%2fuploads%2f2024%2f01%2fArroyo-Culebro-1068x713.jpg&ehk=iqm2qOhzDWrWmWwyYkCeRbdU4hwB%2bV1RLnV3oZFsAiM%3d&risl=&pid=ImgRaw&r=0');
+    }
+    .card[data-id="teatro-francisco-rabal"] .card-img {
+      background-image: url('https://noticiasparamunicipios.com/wp-content/uploads/2020/01/Pinto-Teatro-Municipal.jpg');
+    }
+    .card[data-id="ruta-historica"] .card-img {
+      background-image: url('https://th.bing.com/th/id/OIP.tK7McGS84MWZc40byBswFQHaEl?w=266&h=180&c=7&r=0&o=7&pid=1.7&rm=3');
+    }
+    .card[data-id="ruta-familiar"] .card-img {
+      background-image: url('https://sumandomomentos.es/wp-content/uploads/2023/02/Parque-Infantil-Juan-Carlos-I_Sumando-Momentos.webp');
+    }
+    .card[data-id="ruta-deportiva"] .card-img {
+      background-image: url('https://zigzagdigital.com/upload/images/04_2026/6498_los-yesares-en-pinto.jpg');
+    }
+
+    .fav-btn {
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); font-size: 1rem;
+      transition: all var(--transition); z-index: 2;
+    }
+    .fav-btn:hover { background: #fff; transform: scale(1.1); }
+    .fav-btn.active { color: var(--terracotta); }
+    .fav-btn.active i { font-weight: 900; }
+
+    .card-body { padding: 1.2rem 1.2rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
+    .card-category { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--terracotta); margin-bottom: 0.4rem; }
+    .card-title { font-size: 1.2rem; margin-bottom: 0.5rem; line-height: 1.25; }
+    .card-desc {
+      font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.9rem;
+      flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; }
+    .tag { font-size: 0.65rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 40px; background: rgba(64, 145, 108, 0.1); color: var(--forest); white-space: nowrap; }
+
+    .card-actions { display: flex; gap: 0.5rem; margin-top: auto; }
+    .btn-outline {
+      flex: 1; padding: 0.55rem 0.8rem; border-radius: 40px;
+      font-size: 0.8rem; font-weight: 600;
+      border: 1px solid var(--border-light); color: var(--text-secondary);
+      transition: all var(--transition); text-align: center;
+    }
+    .btn-outline:hover { border-color: var(--forest); color: var(--forest); background: rgba(64, 145, 108, 0.05); }
+    .btn-outline i { margin-right: 0.3rem; font-size: 0.75rem; }
+
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+
+    /* ========== ITINERARIOS ========== */
+    .section-title { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .section-subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.8rem; }
+    .itineraries-section {
+      padding: 2.5rem 0; background: var(--bg-surface);
+      border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);
+      transition: background var(--transition);
+    }
+    .itineraries-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 768px) { .itineraries-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .itinerary-card {
+      background: var(--bg-card); border-radius: 1.25rem; padding: 1.6rem 1.4rem;
+      border: 1px solid var(--border-light); box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex; flex-direction: column;
+    }
+    .itinerary-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .itinerary-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(64, 145, 108, 0.12); color: var(--forest);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .itinerary-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .itinerary-card p { font-size: 0.85rem; color: var(--text-secondary); flex: 1; margin-bottom: 1rem; }
+    .itinerary-card .btn-outline { flex: initial; align-self: flex-start; padding: 0.5rem 1.2rem; }
+
+    /* ========== INFORMACIÓN PRÁCTICA ========== */
+    .practical-section { padding: 2.5rem 0 3rem; }
+    .practical-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 768px) { .practical-grid { grid-template-columns: repeat(3, 1fr); } }
+    .practical-card { background: var(--bg-card); border-radius: 1.25rem; padding: 1.5rem; border: 1px solid var(--border-light); box-shadow: var(--shadow); }
+    .practical-card h4 { font-size: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+    .practical-card h4 i { color: var(--terracotta); font-size: 1rem; }
+    .practical-card p, .practical-card li { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+    .practical-card ul { list-style: none; }
+    .practical-card ul li { margin-bottom: 0.35rem; }
+    .practical-card ul li i { color: var(--forest); font-size: 0.7rem; margin-right: 0.4rem; }
+
+    /* ========== FOOTER ========== */
+    .footer { background: var(--text-primary); color: rgba(255, 255, 255, 0.8); padding: 2.5rem 0 1.5rem; transition: background var(--transition); }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+    .footer-brand .logo { color: #fff; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.6; opacity: 0.7; max-width: 340px; }
+    .footer h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.9rem; }
+    .footer ul { list-style: none; }
+    .footer ul li { margin-bottom: 0.5rem; }
+    .footer ul a { font-size: 0.85rem; opacity: 0.7; transition: opacity var(--transition); }
+    .footer ul a:hover { opacity: 1; color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem; text-align: center; font-size: 0.75rem; opacity: 0.5; }
+
+    /* ========== MODAL ========== */
+    .modal-overlay {
+      position: fixed; inset: 0; background: var(--modal-overlay);
+      backdrop-filter: blur(4px); z-index: 2000;
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem; animation: fadeIn 0.2s ease;
+    }
+    .modal-overlay.open { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: var(--bg-surface); border-radius: 1.5rem;
+      max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+      animation: scaleIn 0.25s ease; transition: background var(--transition);
+    }
+    @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .modal-header {
+      position: relative; padding: 2rem 1.5rem 1rem;
+      background: linear-gradient(135deg, rgba(45, 106, 79, 0.08) 0%, rgba(181, 101, 30, 0.06) 100%);
+      border-radius: 1.5rem 1.5rem 0 0;
+    }
+    .modal-header .card-category { margin-bottom: 0.3rem; }
+    .modal-header h2 { font-size: 1.6rem; padding-right: 2.5rem; }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--bg-surface); border: 1px solid var(--border-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--text-secondary); transition: all var(--transition);
+    }
+    .modal-close:hover { background: var(--terracotta); color: #fff; border-color: var(--terracotta); }
+
+    .modal-body { padding: 1.5rem; }
+    .modal-body .card-tags { margin-bottom: 1rem; }
+    .modal-body p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.2rem; }
+    .modal-info {
+      display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+      padding: 1rem; background: rgba(64, 145, 108, 0.06);
+      border-radius: 0.75rem; font-size: 0.85rem;
+    }
+    .modal-info span { display: flex; align-items: center; gap: 0.4rem; color: var(--text-secondary); }
+    .modal-info i { color: var(--forest); }
+    .modal-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .modal-actions .btn-primary { flex: 1; text-align: center; min-width: 140px; }
+    .modal-actions .btn-outline { flex: 1; min-width: 140px; padding: 0.7rem 1rem; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+      .search-header { display: none; }
+      .hamburger { display: block; }
+      .header-inner { gap: 0.5rem; }
+      .logo { font-size: 1.2rem; }
+    }
+    @media (max-width: 480px) {
+      .logo span { display: none; }
+      .logo i { font-size: 1.8rem; }
+      .header-inner { padding: 0.55rem 0.9rem; }
+      .hero { padding: 2.2rem 0 1.8rem; }
+      .hero-search { flex-direction: column; padding: 0.6rem; gap: 0.5rem; border-radius: 20px; }
+      .hero-search input { width: 100%; text-align: center; }
+      .hero-search .btn-primary { width: 100%; }
+      .filter-tab { font-size: 0.75rem; padding: 0.45rem 1rem; }
+      .modal-header h2 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="Descubre Pinto, inicio">
+        <i class="fas fa-tree"></i>
+        <span>Descubre Pinto</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="#patrimonio">Patrimonio</a></li>
+          <li><a href="#naturaleza">Naturaleza</a></li>
+          <li><a href="#gastronomia">Gastronomía</a></li>
+          <li><a href="#deportes">Deportes</a></li>
+          <li><a href="#rutas">Rutas</a></li>
+          <li><a href="#planifica">Planifica</a></li>
+        </ul>
+      </nav>
+      <div class="search-header">
+        <i class="fas fa-search"></i>
+        <input type="text" id="headerSearch" placeholder="Buscar en Pinto…" aria-label="Buscar lugares de Pinto" />
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="favToggleHeader" aria-label="Ver mis favoritos">
+          <i class="fas fa-heart"></i>
+          <span class="fav-counter" id="favCountHeader">0</span>
+        </button>
+        <button class="icon-btn" id="darkModeToggle" aria-label="Cambiar modo claro/oscuro">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="icon-btn hamburger" id="hamburgerBtn" aria-label="Abrir menú">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#patrimonio">Patrimonio</a>
+      <a href="#naturaleza">Naturaleza</a>
+      <a href="#gastronomia">Gastronomía</a>
+      <a href="#deportes">Deportes</a>
+      <a href="#rutas">Rutas</a>
+      <a href="#planifica">Planifica tu visita</a>
+      <div class="search-header">
+        <i class="fas fa-search"></i>
+        <input type="text" id="mobileSearch" placeholder="Buscar en Pinto…" aria-label="Buscar lugares de Pinto" />
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge">Guía oficial · Pinto, Madrid</span>
+        <h1>Pinto: <span>Historia, Naturaleza</span> y Vida en el Centro de la Península</h1>
+        <p>Descubre la Torre de Éboli, el pulmón verde del Parque Juan Carlos I y la tradición tapeadora de un municipio único a 20 minutos de Madrid.</p>
+        <div class="hero-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="heroSearch" placeholder="¿Qué quieres descubrir? Ej. Torre de Éboli…" aria-label="Buscador principal" />
+          <button class="btn-primary" id="heroSearchBtn" type="button">Buscar</button>
+        </div>
+        <div class="quick-categories" id="quickCategories">
+          <button class="quick-cat-btn active" data-cat="todo">Todo</button>
+          <button class="quick-cat-btn" data-cat="patrimonio">Patrimonio</button>
+          <button class="quick-cat-btn" data-cat="naturaleza">Naturaleza</button>
+          <button class="quick-cat-btn" data-cat="gastronomia">Gastronomía</button>
+          <button class="quick-cat-btn" data-cat="deportes">Deportes y Ocio</button>
+          <button class="quick-cat-btn" data-cat="rutas">Rutas</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FILTROS ================= -->
+  <section class="filter-section" id="filtros">
+    <div class="container">
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-cat="todo">Todo</button>
+        <button class="filter-tab" data-cat="patrimonio">Patrimonio y Cultura</button>
+        <button class="filter-tab" data-cat="naturaleza">Naturaleza</button>
+        <button class="filter-tab" data-cat="gastronomia">Gastronomía</button>
+        <button class="filter-tab" data-cat="deportes">Deportes y Ocio</button>
+        <button class="filter-tab" data-cat="rutas">Rutas</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GRID DE TARJETAS ================= -->
+  <section class="cards-section">
+    <div class="container">
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= PLANIFICA ================= -->
+  <section class="itineraries-section" id="planifica">
+    <div class="container">
+      <h2 class="section-title">Planifica tu visita</h2>
+      <p class="section-subtitle">Tres itinerarios pensados para exprimir Pinto en función de tus intereses.</p>
+      <div class="itineraries-grid">
+        <div class="itinerary-card">
+          <div class="itinerary-icon"><i class="fas fa-landmark"></i></div>
+          <h3>Pinto Histórico en 1 día</h3>
+          <p>Torre de Éboli, Iglesia de Santo Domingo, Casa de la Cadena, Plaza de la Constitución y tapeo final por el centro.</p>
+          <button class="btn-outline itinerary-btn" data-tag="histórico"><i class="fas fa-arrow-right"></i> Ver lugares</button>
+        </div>
+        <div class="itinerary-card">
+          <div class="itinerary-icon"><i class="fas fa-children"></i></div>
+          <h3>Plan en familia con niños</h3>
+          <p>Arqueopinto, Parque Juan Carlos I, zona de juegos y merienda en el entorno del lago. Ideal para una mañana completa.</p>
+          <button class="btn-outline itinerary-btn" data-tag="familia"><i class="fas fa-arrow-right"></i> Ver lugares</button>
+        </div>
+        <div class="itinerary-card">
+          <div class="itinerary-icon"><i class="fas fa-bicycle"></i></div>
+          <h3>Escapada deportiva y natural</h3>
+          <p>Ruta en bici por la Cañada Real Galiana, paseo por el Parque del Egido y visita al Centro Hípico. Todo al aire libre.</p>
+          <button class="btn-outline itinerary-btn" data-tag="deporte"><i class="fas fa-arrow-right"></i> Ver lugares</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INFORMACIÓN PRÁCTICA ================= -->
+  <section class="practical-section" id="practica">
+    <div class="container">
+      <h2 class="section-title">Información práctica</h2>
+      <p class="section-subtitle">Cómo llegar, teléfonos de interés y accesos rápidos.</p>
+      <div class="practical-grid">
+        <div class="practical-card">
+          <h4><i class="fas fa-train"></i> Cómo llegar desde Madrid</h4>
+          <ul>
+            <li><i class="fas fa-circle"></i> Cercanías Renfe Línea C-3 (Madrid - Pinto)</li>
+            <li><i class="fas fa-circle"></i> Autobuses interurbanos desde Villaverde Bajo</li>
+            <li><i class="fas fa-circle"></i> Acceso por la A-4 / salida Pinto</li>
+            <li><i class="fas fa-circle"></i> A 20 min del centro de Madrid en coche</li>
+          </ul>
+        </div>
+        <div class="practical-card">
+          <h4><i class="fas fa-phone-alt"></i> Teléfonos de interés</h4>
+          <ul>
+            <li><i class="fas fa-circle"></i> Ayuntamiento de Pinto: 91 248 36 00</li>
+            <li><i class="fas fa-circle"></i> Oficina de Turismo: 91 248 36 00 (ext. 1234)</li>
+            <li><i class="fas fa-circle"></i> Emergencias: 112</li>
+            <li><i class="fas fa-circle"></i> Taxi local: 91 691 23 45</li>
+          </ul>
+        </div>
+        <div class="practical-card">
+          <h4><i class="fas fa-map-marked-alt"></i> Enlaces rápidos</h4>
+          <ul>
+            <li><i class="fas fa-circle"></i> <a href="https://www.google.com/maps/place/Pinto,+Madrid" target="_blank" rel="noopener" style="color:var(--forest);text-decoration:underline;">Pinto en Google Maps</a></li>
+            <li><i class="fas fa-circle"></i> <a href="https://www.renfe.com" target="_blank" rel="noopener" style="color:var(--forest);text-decoration:underline;">Horarios Renfe C-3</a></li>
+            <li><i class="fas fa-circle"></i> <a href="https://www.ayto-pinto.es" target="_blank" rel="noopener" style="color:var(--forest);text-decoration:underline;">Web oficial del Ayuntamiento</a></li>
+            <li><i class="fas fa-circle"></i> Cada ficha incluye botón directo a Google Maps</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="color:#fff;">
+            <i class="fas fa-tree" style="color:var(--gold);"></i>
+            <span>Descubre Pinto</span>
+          </div>
+          <p>Guía turística y de ocio oficial de Pinto (Madrid). Historia, naturaleza, gastronomía y deporte en un solo lugar. Hecha con cariño para vecinos y visitantes.</p>
+        </div>
+        <div>
+          <h4>Explorar</h4>
+          <ul>
+            <li><a href="#patrimonio">Patrimonio y Cultura</a></li>
+            <li><a href="#naturaleza">Naturaleza y Familia</a></li>
+            <li><a href="#gastronomia">Gastronomía y Tapeo</a></li>
+            <li><a href="#deportes">Deportes y Ocio</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Visítanos</h4>
+          <ul>
+            <li><a href="#planifica">Planifica tu visita</a></li>
+            <li><a href="#practica">Información práctica</a></li>
+            <li><a href="#filtros">Filtrar por categoría</a></li>
+            <li><a href="#" id="footerFav">Mis favoritos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Guía Turística de Pinto · Todos los derechos reservados · Diseño y desarrollo web · Aviso: esta guía es informativa y no oficial del Ayuntamiento.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODAL ================= -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" id="modalContent">
+      <div class="modal-header">
+        <span class="card-category" id="modalCategory"></span>
+        <h2 id="modalTitle"></h2>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar detalle"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="card-tags" id="modalTags"></div>
+        <p id="modalDesc"></p>
+        <div class="modal-info" id="modalInfo"></div>
+        <div class="modal-actions">
+          <a href="#" class="btn-primary" id="modalMapBtn" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Cómo llegar</a>
+          <button class="btn-outline" id="modalFavBtn"><i class="fas fa-heart"></i> Añadir a favoritos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ================= DATOS INTERNOS =================
+      const lugaresData = [
+        { id: 'torre-eboli', nombre: 'Torre de Éboli', categoria: 'patrimonio', descripcion: 'Fortaleza medieval del siglo XIV vinculada a la Princesa de Éboli. Ofrece visitas guiadas teatralizadas que recorren su historia y leyendas. Un imprescindible del patrimonio pinteño.', ubicacion: 'Calle de la Torre, 14, Pinto', etiquetas: ['Medieval', 'Visitas guiadas', 'Historia'], icono: 'fa-chess-rook', mapsUrl: 'https://maps.google.com/?q=Torre+de+Éboli+Pinto', datos: 'Visitas guiadas: sábados y domingos · Entrada: 3 €' },
+        { id: 'iglesia-santo-domingo', nombre: 'Iglesia de Santo Domingo de Silos', categoria: 'patrimonio', descripcion: 'Joya arquitectónica de los siglos XVI-XVII con un impresionante retablo barroco. En su interior se conservan obras de gran valor artístico y religioso.', ubicacion: 'Plaza de la Constitución, 3, Pinto', etiquetas: ['Barroco', 'Arquitectura', 'Religioso'], icono: 'fa-church', mapsUrl: 'https://maps.google.com/?q=Iglesia+Santo+Domingo+de+Silos+Pinto', datos: 'Misas: sábados 19:00 y domingos 12:00 · Visitas culturales concertadas' },
+        { id: 'monolito-geografico', nombre: 'Monolito del Centro Geográfico de la Península', categoria: 'patrimonio', descripcion: 'Monolito que señala el centro geográfico de la Península Ibérica, situado junto al Parque del Egido y la Fuente de los Cuatro Caños. Un lugar curioso y muy fotografiado.', ubicacion: 'Parque del Egido, Pinto', etiquetas: ['Curiosidad', 'Monumento', 'Fotografía'], icono: 'fa-location-dot', mapsUrl: 'https://maps.google.com/?q=Monolito+Centro+Geografico+Peninsula+Pinto', datos: 'Acceso libre · Recomendado al atardecer' },
+        { id: 'casa-cadena', nombre: 'Casa de la Cadena', categoria: 'patrimonio', descripcion: 'Edificio histórico del siglo XV convertido en centro cultural y biblioteca municipal. Su arquitectura tradicional castellana alberga exposiciones y actividades culturales durante todo el año.', ubicacion: 'Calle de la Cadena, 1, Pinto', etiquetas: ['Biblioteca', 'Centro cultural', 'Siglo XV'], icono: 'fa-landmark', mapsUrl: 'https://maps.google.com/?q=Casa+de+la+Cadena+Pinto', datos: 'Entrada gratuita · Abierto de lunes a sábado' },
+        { id: 'plaza-constitucion', nombre: 'Plaza de la Constitución y Ayuntamiento', categoria: 'patrimonio', descripcion: 'Plaza porticada castellana, epicentro de la vida local. Rodeada de soportales, bares y terrazas, acoge el Ayuntamiento y eventos festivos durante todo el año.', ubicacion: 'Plaza de la Constitución, Pinto', etiquetas: ['Plaza', 'Ayuntamiento', 'Ambiente'], icono: 'fa-building-columns', mapsUrl: 'https://maps.google.com/?q=Plaza+de+la+Constitucion+Pinto', datos: 'Acceso libre · Mercadillo los jueves' },
+        { id: 'convento-capuchinas', nombre: 'Convento de las Monjas Capuchinas y Ermita del Cristo', categoria: 'patrimonio', descripcion: 'Conjunto religioso de gran tradición en Pinto. La Ermita del Cristo alberga un olmo centenario que es símbolo de la localidad. Un rincón de paz y recogimiento.', ubicacion: 'Calle del Cristo, 2, Pinto', etiquetas: ['Convento', 'Ermita', 'Olmo centenario'], icono: 'fa-cross', mapsUrl: 'https://maps.google.com/?q=Convento+Capuchinas+Ermita+Cristo+Pinto', datos: 'Visitas: domingos tras la misa · Entrada gratuita' },
+        { id: 'parque-juan-carlos', nombre: 'Parque Municipal Juan Carlos I', categoria: 'naturaleza', descripcion: 'El pulmón verde de Pinto: más de 5.000 árboles, un hermoso lago, auditorio al aire libre y amplias zonas de juego para niños. Perfecto para pasear, hacer deporte o un picnic en familia.', ubicacion: 'Avenida de Juan Carlos I, Pinto', etiquetas: ['Lago', 'Familias', '5000 árboles'], icono: 'fa-tree', mapsUrl: 'https://maps.google.com/?q=Parque+Juan+Carlos+I+Pinto', datos: 'Acceso libre · Zonas de sombra y fuentes · Aparcamiento gratuito' },
+        { id: 'arqueopinto', nombre: 'Arqueopinto', categoria: 'naturaleza', descripcion: 'Parque temático de la Prehistoria ideal para familias y niños. Talleres, recreaciones de la vida prehistórica y visitas didácticas que transportan a otra época.', ubicacion: 'Calle de la Cañada, 5, Pinto', etiquetas: ['Prehistoria', 'Talleres', 'Niños'], icono: 'fa-paw', mapsUrl: 'https://maps.google.com/?q=Arqueopinto+Pinto', datos: 'Entrada: 8 € adultos, 6 € niños · Abierto fines de semana' },
+        { id: 'parque-egido', nombre: 'Parque del Egido', categoria: 'naturaleza', descripcion: 'El parque histórico más emblemático del centro urbano. Jardines cuidados, la Fuente de los Cuatro Caños y el monolito geográfico. Un remanso de paz en el corazón de Pinto.', ubicacion: 'Calle del Egido, Pinto', etiquetas: ['Jardines', 'Histórico', 'Fuente'], icono: 'fa-water', mapsUrl: 'https://maps.google.com/?q=Parque+del+Egido+Pinto', datos: 'Acceso libre · Ideal para paseos al atardecer' },
+        { id: 'zona-tapeo', nombre: 'Zona de tapeo tradicional del centro', categoria: 'gastronomia', descripcion: 'Calles peatonales y entorno del Ayuntamiento repletos de bares y terrazas donde disfrutar de la mejor tapa castellana. Ambiente acogedor y precios populares.', ubicacion: 'Calle Real, Calle de la Cadena y entorno de la Plaza', etiquetas: ['Tapas', 'Terrazas', 'Ambiente'], icono: 'fa-wine-glass', mapsUrl: 'https://maps.google.com/?q=Tapeo+centro+Pinto', datos: 'Recomendado: viernes y sábados por la tarde · Tapeo con consumición' },
+        { id: 'gastro-eboli', nombre: 'Éboli Gastro & Asadores Castellanos', categoria: 'gastronomia', descripcion: 'Oferta gastronómica destacada: asadores castellanos, arrocerías y cocina de autor. El entorno del Parque Juan Carlos I y Plaza Éboli concentra opciones modernas para todos los paladares.', ubicacion: 'Plaza Éboli y entorno del Parque Juan Carlos I', etiquetas: ['Asadores', 'Arrocerías', 'Autor'], icono: 'fa-utensils', mapsUrl: 'https://maps.google.com/?q=Éboli+Gastro+Pinto', datos: 'Reservas recomendadas en fin de semana · Menús desde 18 €' },
+        { id: 'polideportivo', nombre: 'Polideportivo Municipal Príncipe de Asturias y Estadio Rafael Mendoza', categoria: 'deportes', descripcion: 'Instalaciones deportivas de referencia en Pinto. Pistas de atletismo, fútbol, pabellón cubierto y piscina. El Estadio Rafael Mendoza es sede de eventos deportivos locales.', ubicacion: 'Calle del Deporte, 2, Pinto', etiquetas: ['Deporte', 'Piscina', 'Fútbol'], icono: 'fa-futbol', mapsUrl: 'https://maps.google.com/?q=Polideportivo+Principe+de+Asturias+Pinto', datos: 'Horario: 7:00-23:00 · Instalaciones de acceso libre y actividades dirigidas' },
+        { id: 'centro-hipico', nombre: 'Centro Hípico y Karting Pinto', categoria: 'deportes', descripcion: 'El Centro Hípico, en el Parque Juan Carlos I, ofrece clases y paseos a caballo. El Karting Pinto es ideal para los amantes de la velocidad y las emociones fuertes.', ubicacion: 'Parque Juan Carlos I (Hípico) · Carretera de Andalucía (Karting)', etiquetas: ['Hípica', 'Karting', 'Aventura'], icono: 'fa-horse-head', mapsUrl: 'https://maps.google.com/?q=Centro+Hipico+Pinto', datos: 'Hípico: clases desde 25 € · Karting: tandas desde 12 €' },
+        { id: 'rutas-bici', nombre: 'Rutas Ciclistas y Senderismo', categoria: 'deportes', descripcion: 'Pinto es cuna de Alberto Contador y cuenta con una gran tradición ciclista. La Cañada Real Galiana y los caminos hacia el Parque Regional del Sureste son perfectos para la bici de montaña y el senderismo.', ubicacion: 'Cañada Real Galiana y accesos al Parque Regional del Sureste', etiquetas: ['Bicicleta', 'Senderismo', 'Alberto Contador'], icono: 'fa-bicycle', mapsUrl: 'https://maps.google.com/?q=Cañada+Real+Galiana+Pinto', datos: 'Rutas señalizadas · Distancias de 5 a 25 km · Apta para todos los niveles' },
+        { id: 'teatro-francisco-rabal', nombre: 'Teatro Francisco Rabal y Centro Comercial Plaza Éboli', categoria: 'deportes', descripcion: 'El Teatro Francisco Rabal acoge una completa agenda cultural con teatro, música y danza. El Centro Comercial Plaza Éboli ofrece ocio, compras y restauración para toda la familia.', ubicacion: 'Calle de las Artes, 2 (Teatro) · Plaza Éboli (Centro Comercial)', etiquetas: ['Teatro', 'Compras', 'Cine'], icono: 'fa-masks-theater', mapsUrl: 'https://maps.google.com/?q=Teatro+Francisco+Rabal+Pinto', datos: 'Taquilla: de miércoles a domingo · Programación mensual en web' },
+        { id: 'ruta-historica', nombre: 'Pinto Histórico en 1 día', categoria: 'rutas', descripcion: 'Itinerario circular que recorre Torre de Éboli, Iglesia de Santo Domingo, Casa de la Cadena, Plaza de la Constitución y finaliza con tapeo por el centro. Duración aproximada: 4 horas.', ubicacion: 'Centro histórico de Pinto', etiquetas: ['Histórico', '1 día', 'Cultural'], icono: 'fa-route', mapsUrl: 'https://maps.google.com/?q=Torre+de+Éboli+Pinto', datos: 'Distancia: 3 km · Dificultad baja · Todo el año' },
+        { id: 'ruta-familiar', nombre: 'Plan en familia con niños', categoria: 'rutas', descripcion: 'Ruta pensada para los más pequeños: Arqueopinto por la mañana, comida en el Parque Juan Carlos I y tarde de juegos junto al lago. Una jornada completa de diversión.', ubicacion: 'Arqueopinto y Parque Juan Carlos I', etiquetas: ['Familiar', 'Niños', 'Aire libre'], icono: 'fa-children', mapsUrl: 'https://maps.google.com/?q=Arqueopinto+Pinto', datos: 'Duración: día completo · Edad recomendada: 4-12 años' },
+        { id: 'ruta-deportiva', nombre: 'Escapada deportiva y natural', categoria: 'rutas', descripcion: 'Ruta en bici por la Cañada Real Galiana, paseo por el Parque del Egido y visita al Centro Hípico. Una experiencia al aire libre que combina deporte y naturaleza.', ubicacion: 'Cañada Real Galiana y Parque del Egido', etiquetas: ['Bicicleta', 'Naturaleza', 'Deporte'], icono: 'fa-person-hiking', mapsUrl: 'https://maps.google.com/?q=Cañada+Real+Galiana+Pinto', datos: 'Distancia: 12 km · Nivel medio · Llevar agua y protección solar' }
+      ];
+
+      // ================= ESTADO =================
+      let favoritos = JSON.parse(localStorage.getItem('pintoFavoritos')) || [];
+      let categoriaActiva = 'todo';
+      let busquedaActual = '';
+
+      const cardsGrid = document.getElementById('cardsGrid');
+      const filterTabs = document.getElementById('filterTabs');
+      const quickCategories = document.getElementById('quickCategories');
+      const favCountHeader = document.getElementById('favCountHeader');
+      const darkModeToggle = document.getElementById('darkModeToggle');
+      const headerSearch = document.getElementById('headerSearch');
+      const mobileSearch = document.getElementById('mobileSearch');
+      const heroSearch = document.getElementById('heroSearch');
+      const heroSearchBtn = document.getElementById('heroSearchBtn');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const modalOverlay = document.getElementById('modalOverlay');
+      const modalClose = document.getElementById('modalClose');
+      const favToggleHeader = document.getElementById('favToggleHeader');
+
+      // ================= UTILIDADES =================
+      function getCategoriaLabel(cat) {
+        const map = { patrimonio: 'Patrimonio y Cultura', naturaleza: 'Naturaleza', gastronomia: 'Gastronomía', deportes: 'Deportes y Ocio', rutas: 'Rutas' };
+        return map[cat] || cat;
+      }
+      function getIcono(cat) {
+        const map = { patrimonio: 'fa-landmark', naturaleza: 'fa-tree', gastronomia: 'fa-utensils', deportes: 'fa-futbol', rutas: 'fa-route' };
+        return map[cat] || 'fa-map-pin';
+      }
+      function isFavorito(id) { return favoritos.includes(id); }
+      function toggleFavorito(id) {
+        if (isFavorito(id)) favoritos = favoritos.filter(f => f !== id);
+        else favoritos.push(id);
+        localStorage.setItem('pintoFavoritos', JSON.stringify(favoritos));
+        actualizarContadorFavoritos();
+        renderCards();
+        actualizarBotonFavModal(id);
+      }
+      function actualizarContadorFavoritos() {
+        const count = favoritos.length;
+        favCountHeader.textContent = count;
+        favCountHeader.style.display = count > 0 ? 'flex' : 'none';
+      }
+      function actualizarBotonFavModal(id) {
+        const btn = document.getElementById('modalFavBtn');
+        if (!btn) return;
+        if (isFavorito(id)) {
+          btn.innerHTML = '<i class="fas fa-heart" style="color:var(--terracotta);"></i> Quitar de favoritos';
+        } else {
+          btn.innerHTML = '<i class="fas fa-heart"></i> Añadir a favoritos';
+        }
+      }
+
+      // ================= FILTRO Y RENDER =================
+      function getLugaresFiltrados() {
+        let r = lugaresData;
+        if (categoriaActiva !== 'todo') r = r.filter(l => l.categoria === categoriaActiva);
+        if (busquedaActual.trim() !== '') {
+          const t = busquedaActual.toLowerCase().trim();
+          r = r.filter(l =>
+            l.nombre.toLowerCase().includes(t) ||
+            l.descripcion.toLowerCase().includes(t) ||
+            l.ubicacion.toLowerCase().includes(t) ||
+            l.etiquetas.some(tag => tag.toLowerCase().includes(t))
+          );
+        }
+        return r;
+      }
+
+      function renderCards() {
+        const lugares = getLugaresFiltrados();
+        if (lugares.length === 0) {
+          cardsGrid.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><p>No se encontraron lugares que coincidan con tu búsqueda.</p><p style="font-size:0.85rem; margin-top:0.5rem;">Prueba con otra palabra o cambia de categoría.</p></div>`;
+          return;
+        }
+        cardsGrid.innerHTML = lugares.map(lugar => {
+          const favorito = isFavorito(lugar.id);
+          return `
+            <article class="card" data-id="${lugar.id}">
+              <div class="card-img">
+                <button class="fav-btn ${favorito ? 'active' : ''}" data-id="${lugar.id}" aria-label="${favorito ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
+                  <i class="fas fa-heart"></i>
+                </button>
+              </div>
+              <div class="card-body">
+                <span class="card-category">${getCategoriaLabel(lugar.categoria)}</span>
+                <h3 class="card-title">${lugar.nombre}</h3>
+                <p class="card-desc">${lugar.descripcion}</p>
+                <div class="card-tags">${lugar.etiquetas.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                <div class="card-actions">
+                  <button class="btn-outline view-detail" data-id="${lugar.id}"><i class="fas fa-info-circle"></i> Ver más</button>
+                  <a href="${lugar.mapsUrl}" target="_blank" rel="noopener" class="btn-outline"><i class="fas fa-map-marker-alt"></i> Cómo llegar</a>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        document.querySelectorAll('.fav-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleFavorito(this.dataset.id);
+          });
+        });
+        document.querySelectorAll('.view-detail').forEach(btn => {
+          btn.addEventListener('click', function() { abrirModal(this.dataset.id); });
+        });
+      }
+
+      // ================= MODAL =================
+      function abrirModal(id) {
+        const lugar = lugaresData.find(l => l.id === id);
+        if (!lugar) return;
+        document.getElementById('modalCategory').textContent = getCategoriaLabel(lugar.categoria);
+        document.getElementById('modalTitle').textContent = lugar.nombre;
+        document.getElementById('modalDesc').textContent = lugar.descripcion;
+        document.getElementById('modalTags').innerHTML = lugar.etiquetas.map(t => `<span class="tag">${t}</span>`).join('');
+        document.getElementById('modalInfo').innerHTML = `<span><i class="fas fa-map-pin"></i> ${lugar.ubicacion}</span><span><i class="fas fa-info-circle"></i> ${lugar.datos}</span>`;
+        document.getElementById('modalMapBtn').href = lugar.mapsUrl;
+        const favBtn = document.getElementById('modalFavBtn');
+        favBtn.dataset.id = id;
+        actualizarBotonFavModal(id);
+        modalOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function cerrarModal() {
+        modalOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      // ================= FILTROS Y BÚSQUEDA =================
+      function setCategoria(cat) {
+        categoriaActiva = cat;
+        busquedaActual = '';
+        if (headerSearch) headerSearch.value = '';
+        if (mobileSearch) mobileSearch.value = '';
+        if (heroSearch) heroSearch.value = '';
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+        document.querySelectorAll('.quick-cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+        renderCards();
+      }
+      function setBusqueda(term) {
+        busquedaActual = term;
+        if (headerSearch) headerSearch.value = term;
+        if (mobileSearch) mobileSearch.value = term;
+        if (heroSearch) heroSearch.value = term;
+        renderCards();
+      }
+
+      // ================= INIT =================
+      function init() {
+        actualizarContadorFavoritos();
+        renderCards();
+
+        filterTabs.addEventListener('click', e => {
+          const tab = e.target.closest('.filter-tab');
+          if (tab) setCategoria(tab.dataset.cat);
+        });
+        quickCategories.addEventListener('click', e => {
+          const btn = e.target.closest('.quick-cat-btn');
+          if (btn) setCategoria(btn.dataset.cat);
+        });
+        headerSearch.addEventListener('input', e => setBusqueda(e.target.value));
+        mobileSearch.addEventListener('input', e => setBusqueda(e.target.value));
+        heroSearch.addEventListener('input', e => setBusqueda(e.target.value));
+        heroSearchBtn.addEventListener('click', () => setBusqueda(heroSearch.value));
+
+        const darkPref = localStorage.getItem('pintoDarkMode');
+        if (darkPref === 'enabled') {
+          document.body.classList.add('dark-mode');
+          darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        darkModeToggle.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          const isDark = document.body.classList.contains('dark-mode');
+          localStorage.setItem('pintoDarkMode', isDark ? 'enabled' : 'disabled');
+          darkModeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        hamburgerBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+        mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+        modalClose.addEventListener('click', cerrarModal);
+        modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) cerrarModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOverlay.classList.contains('open')) cerrarModal(); });
+
+        document.getElementById('modalFavBtn').addEventListener('click', function() {
+          const id = this.dataset.id;
+          if (id) toggleFavorito(id);
+        });
+
+        favToggleHeader.addEventListener('click', () => {
+          if (favoritos.length === 0) {
+            alert('Aún no tienes favoritos. ¡Explora y añade lugares con el corazón!');
+            return;
+          }
+          const lugaresFav = lugaresData.filter(l => favoritos.includes(l.id));
+          cardsGrid.innerHTML = lugaresFav.map(lugar => {
+            const favorito = isFavorito(lugar.id);
+            return `
+              <article class="card" data-id="${lugar.id}">
+                <div class="card-img">
+                  <button class="fav-btn ${favorito ? 'active' : ''}" data-id="${lugar.id}"><i class="fas fa-heart"></i></button>
+                </div>
+                <div class="card-body">
+                  <span class="card-category">${getCategoriaLabel(lugar.categoria)}</span>
+                  <h3 class="card-title">${lugar.nombre}</h3>
+                  <p class="card-desc">${lugar.descripcion}</p>
+                  <div class="card-tags">${lugar.etiquetas.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                  <div class="card-actions">
+                    <button class="btn-outline view-detail" data-id="${lugar.id}"><i class="fas fa-info-circle"></i> Ver más</button>
+                    <a href="${lugar.mapsUrl}" target="_blank" rel="noopener" class="btn-outline"><i class="fas fa-map-marker-alt"></i> Cómo llegar</a>
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join('');
+          document.querySelectorAll('.fav-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) { e.stopPropagation(); toggleFavorito(this.dataset.id); });
+          });
+          document.querySelectorAll('.view-detail').forEach(btn => {
+            btn.addEventListener('click', function() { abrirModal(this.dataset.id); });
+          });
+          document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.quick-cat-btn').forEach(b => b.classList.remove('active'));
+        });
+
+        document.getElementById('footerFav').addEventListener('click', e => {
+          e.preventDefault();
+          favToggleHeader.click();
+        });
+
+        document.querySelectorAll('.itinerary-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            categoriaActiva = 'todo';
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === 'todo'));
+            document.querySelectorAll('.quick-cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === 'todo'));
+            setBusqueda(this.dataset.tag);
+            document.getElementById('filtros').scrollIntoView({ behavior: 'smooth' });
+          });
+        });
+
+        document.querySelector('.logo').addEventListener('click', e => {
+          e.preventDefault();
+          setCategoria('todo');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.querySelectorAll('.nav-links a, .mobile-menu a, .footer ul a').forEach(link => {
+          const href = link.getAttribute('href');
+          if (['#patrimonio', '#naturaleza', '#gastronomia', '#deportes', '#rutas'].includes(href)) {
+            link.addEventListener('click', e => {
+              e.preventDefault();
+              setCategoria(href.replace('#', ''));
+              document.getElementById('filtros').scrollIntoView({ behavior: 'smooth' });
+            });
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>
